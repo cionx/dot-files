@@ -1,0 +1,319 @@
+global !p
+def new_arrow(expr):
+    parts = [s.strip() for s in expr.split(':')]
+
+    # the orientation of the arrow
+    orientation = parts[0]
+    
+    # options for the arrow style
+    preoptions = parts[1]
+    bend      = ''
+    head      = ''
+    ass       = ''
+    linetype  = ''
+
+    for opt in [s.strip() for s in preoptions.split(' ')]:
+        if opt == 'd':
+            linetype = 'dashed'
+        elif opt == 'dt':
+            linetype = "dotted"
+        elif opt in {'l', 'bl'}:
+            bend = 'bend left'
+        elif opt in {'r', 'br'}:
+            bend = 'bend right'
+        elif opt == 'dl':
+            linetype = 'dashed'
+            bend = 'bend left'
+        elif opt == 'dr':
+            linetype = 'dashed'
+            bend = 'bend right'
+        elif opt in {'h','hook'}:
+            ass = 'hook'
+        elif opt in {'t', 'two'}:
+            head = 'two heads'
+        elif opt == 'R':
+            linetype = 'Rightarrow'
+        elif opt in {'e', 'eq', 'E', 'Eq'}:
+            linetype = 'equal'
+
+    options = ", ".join(filter(None, [linetype, bend, head, ass]))
+
+    # the label
+    label = parts[2]
+
+    # options for the label orientation
+    preposition = parts[3]
+    pos_positions = {
+            ''   : '',
+            'a'  : 'above',
+            'u'  : 'above',
+            'b'  : 'below',
+            'd'  : 'below',
+            'i'  : 'description',
+            'r'  : 'right',
+            'l'  : 'left',
+            'ar' : 'above right',
+            'ra' : 'above right',
+            'ur' : 'above right',
+            'ru' : 'above right',
+            'al' : 'above left',
+            'la' : 'above left',
+            'ul' : 'above left',
+            'lu' : 'above left',
+            'br' : 'below right',
+            'rb' : 'below right',
+            'dr' : 'below right',
+            'rd' : 'below right',
+            'bl' : 'below left',
+            'lb' : 'below left',
+            'dl' : 'below left',
+            'ld' : 'below left'
+            }
+    try:
+      position = pos_positions[preposition]
+    except KeyError:
+      position = ''
+
+    # building the string
+
+    orientation                 = '{' + orientation + '}'
+    if options  != '': options  = '[' + options     + ']'
+    if label    != '': label    = '{' + label       + '}'
+    if position != '': position = '[' + position    + ']' 
+
+    arrow_string = "\\arrow" + options + orientation + position + label
+    return arrow_string
+endglobal
+
+snippet "a :(.*):$" "shortcut for tikzcd arrows" rb
+`!p snip.rv = new_arrow(match.group(1))`
+endsnippet
+  
+snippet "a: *" "shortcut for shortcut for tikzcd arrows" rb
+a : ${1:orientation} : ${2:arrow options} : ${3:label} : ${4:label options} :$0
+endsnippet
+
+
+
+
+
+# Create an empty commutative diagram of a given size with
+# cd n m
+# giving an empty diagram of height n and width m
+
+global !p
+def createcd(n,m):
+    # make sure that m and n are inters
+    n = int(n)
+    m = int(m)
+    # create the generic entry of a row
+    row = "\n&".join( m * ["\n  "] )
+    # make a list of blocks for rows, starting with a comment including the current row number
+    allrows = []
+    for i in range(n):
+        newrow = "\n" + "% row " + str(i+1)
+        newrow += row
+        allrows.append(newrow)
+		# create everything
+    result = ""
+    result += "\\begin{tikzcd}"
+    result += "\n\\\\".join( allrows )
+    result += "\n" + "\\end{tikzcd}"
+    return result
+endglobal
+
+
+snippet "cd +([1-9]\d*) +([1-9]\d*) *" "tikzcd fast" rb
+  `!p snip.rv = createcd(match.group(1), match.group(2))`
+endsnippet
+
+
+snippet "cd s(quare)?" "generic square diagram" rb
+\[
+  \begin{tikzcd}
+	  A$0
+		\arrow{r}[above]{}
+		\arrow{d}[left]{}
+		&
+		B
+		\arrow{d}[right]{}
+		\\\\
+		C
+		\arrow{r}[below]{}
+		&
+		D
+	\end{tikzcd}
+\]
+endsnippet
+
+snippet "cd t 7" "triangle with point in the top left"
+\[
+  \begin{tikzcd}
+	  A$0
+		\arrow{r}[above]{}
+		\arrow{d}[left]{}
+		&
+		B
+		\\\\
+		C
+		\arrow{ur}[below right]{}
+		&
+		{}
+	\end{tikzcd}
+\]
+endsnippet
+
+snippet "cd t 8" "triangle with point at the top"
+\[
+  \begin{tikzcd}[column sep = small]
+		{}
+		&
+		B$0
+		\arrow{dr}[above right]{}
+		&
+		{}
+		\\\\
+		A
+		\arrow{ur}[above left]{}
+		\arrow{rr}[below]{}
+		&
+		{}
+		&
+		C
+	\end{tikzcd}
+\]
+endsnippet
+
+snippet "cd t 9" "triangle with point in the top right"
+\[
+  \begin{tikzcd}
+    A$0
+		\arrow{r}[above]{}
+		\arrow{dr}[below left]{}
+		&
+		B
+		\arrow{d}[right]{}
+		\\\\
+		{}
+		&
+		C
+  \end{tikzcd}
+\]
+endsnippet
+
+snippet "cd t 1" "triangle with pont in the bottom left"
+\[
+  \begin{tikzcd}
+	  A$0
+		\arrow{d}[left]{}
+		\arrow{dr}[above right]{}
+		&
+		{}
+		\\\\
+		B
+		\arrow{r}[below]{}
+		&
+		C
+	\end{tikzcd}
+\]
+endsnippet
+
+snippet "cd t 2" "triangle with pont on the bottom"
+\[
+  \begin{tikzcd}[column sep = small]
+	  A$0
+		\arrow{rr}[above]{}
+		\arrow{dr}[below left]{}
+		&
+		{}
+		&
+		B
+		\\\\
+		{}
+		&
+		C
+		\arrow{ur}[below right]{}
+		&
+		{}
+	\end{tikzcd}
+\]
+endsnippet
+
+snippet "cd t 3" "triangle with point in the bottom right"
+\[
+  \begin{tikzcd}
+	  {}
+		&
+		A$0
+		\arrow{dl}[above left]{}
+		\arrow{d}[right]{}
+		\\\\
+		B
+		\arrow{r}[below]{}
+		&
+		C
+	\end{tikzcd}
+\]
+endsnippet
+
+snippet "cd push" "generic pushout" rb
+\[
+  \begin{tikzcd}
+	  A$0
+		\arrow{r}[above]{}
+		\arrow{d}[leff]{}
+		&
+		B
+		\arrow{d}[right]{}
+		\arrow[bend left]{ddr}[above right]{}
+		&
+		{}
+		\\\\
+		C
+		\arrow{r}[below]{}
+		\arrow[bend right]{drr}[below left]{}
+		&
+		D
+		\arrow{dr}[above right]{}
+		&
+		{}
+		\\\\
+		{}
+		&
+		{}
+		&
+		P
+	\end{tikzcd}
+\]
+endsnippet
+
+snippet "cd pull" "generic pullback" rb
+\[
+  \begin{tikzcd}
+		P$0
+		\arrow[bend left]{rrd}[above right]{}
+		\arrow[bend right]{ddr}[below left]{}
+		\arrow{dr}[above right]{}
+		&
+		{}
+		&
+		{}
+		\\\\
+		{}
+		&
+		A
+		\arrow{r}[above]{}
+		\arrow{d}[left]{}
+		&
+		B
+		\arrow{d}[right]{}
+		\\\\
+		{}
+		&
+		C
+		\arrow{r}[below]{}
+		&
+		D
+	\end{tikzcd}
+\]
+endsnippet

@@ -1,0 +1,8 @@
+#af=volume=replaygain-track
+use-filedir-conf
+screenshot-format=png
+screenshot-png-compression=0
+screenshot-template="~/screenshots/%f (%p)"
+alang=jpn,jp,kor,eng,en
+slang=eng,en
+force-window

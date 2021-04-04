@@ -1,0 +1,82 @@
+
+snippet " o\+ " "binary direct sum" rA
+ \oplus 
+endsnippet
+
+
+
+snippet prod "products"
+\prod${1/.+/_/}${1/.(.*)/(?1:\{)/}${1:from}${1/.(.*)/(?1:\})/}${2/.+/\^/}${2/.(.*)/(?1:\{)/}${2:to}${2/.(.*)/(?1:\})/} $0
+endsnippet
+
+snippet sum "sums"
+\sum${1/.+/_/}${1/.(.*)/(?1:\{)/}${1:from}${1/.(.*)/(?1:\})/}${2/.+/\^/}${2/.(.*)/(?1:\{)/}${2:to}${2/.(.*)/(?1:\})/} $0
+endsnippet
+
+snippet osum "sums"
+\bigoplus${1/.+/_/}${1/.(.*)/(?1:\{)/}${1:from}${1/.(.*)/(?1:\})/}${2/.+/\^/}${2/.(.*)/(?1:\{)/}${2:to}${2/.(.*)/(?1:\})/} $0
+endsnippet
+
+
+
+snippet " \+\+ " "sums wth dots" rA
+ + \dotsb + 
+endsnippet
+
+snippet " \+\+\+ " "direct sum with dots" rA
+ \oplus \dotsb \oplus 
+endsnippet
+
+snippet " \*\+\+ " "products with dots" rA
+ \dotsm 
+endsnippet
+
+snippet " x\+\+ " "cross products with dots" rA
+ \times \dotsm \times 
+endsnippet
+
+snippet " cup\+\+ " "union with dots" rA
+ \cup \dotsb \cup 
+endsnippet
+
+snippet " cap\+\+ " "union with dots" rA
+ \cap \dotsb \cap 
+endsnippet
+
+snippet " ?,\+\+ " "lists of elements by hand" rA
+, \dotsc, 
+endsnippet
+
+
+
+snippet "l\+\+" "standard sum" r
+${1:name}${2/.+/_/}${2/.(.*)/(?1:\{)/}${2:from}${2/.(.*)/(?1:\})/} + \dotsb + $1${3/.+/_/}${3/.(.*)/(?1:\{)/}${3:to}${3/.(.*)/(?1:\})/}
+endsnippet
+
+snippet "lo\+\+" "standard direct sum" r
+${1:name}${2/.+/_/}${2/.(.*)/(?1:\{)/}${2:from}${2/.(.*)/(?1:\})/} \oplus dotsb \oplus $1${3/.+/_/}${3/.(.*)/(?1:\{)/}${3:to}${3/.(.*)/(?1:\})/}
+endsnippet
+
+snippet "l\*\+\+" "standard multiplication" r
+${1:name}${2/.+/_/}${2/.(.*)/(?1:\{)/}${2:from}${2/.(.*)/(?1:\})/} \dotsm $1${3/.+/_/}${3/.(.*)/(?1:\{)/}${3:to}${3/.(.*)/(?1:\})/}
+endsnippet
+
+snippet "lx\+\+" "standard product" r
+${1:name}${2/.+/_/}${2/.(.*)/(?1:\{)/}${2:from}${2/.(.*)/(?1:\})/} \times \dotsb \times $1${3/.+/_/}${3/.(.*)/(?1:\{)/}${3:to}${3/.(.*)/(?1:\})/}
+endsnippet
+
+snippet "lcup\+\+" "standard union" r
+${1:name}${2/.+/_/}${2/.(.*)/(?1:\{)/}${2:from}${2/.(.*)/(?1:\})/} \cup \dotsb \cup $1${3/.+/_/}${3/.(.*)/(?1:\{)/}${3:to}${3/.(.*)/(?1:\})/}
+endsnippet
+
+snippet "lcap\+\+" "standard intersection" r
+${1:name}${2/.+/_/}${2/.(.*)/(?1:\{)/}${2:from}${2/.(.*)/(?1:\})/} \cap \dotsb \cap $1${3/.+/_/}${3/.(.*)/(?1:\{)/}${3:to}${3/.(.*)/(?1:\})/}
+endsnippet
+
+snippet "l,\+\+" "standard list" r
+${1:name}${2/.+/_/}${2/.(.*)/(?1:\{)/}${2:from}${2/.(.*)/(?1:\})/}, \dotsc, $1${3/.+/_/}${3/.(.*)/(?1:\{)/}${3:to}${3/.(.*)/(?1:\})/}
+endsnippet
+
+snippet "lfam" "standard sum" r
+(${1:name}${2/.+/_/}${2/.(.*)/(?1:\{)/}${2:from}${2/.(.*)/(?1:\})/}, \dotsc, $1${3/.+/_/}${3/.(.*)/(?1:\{)/}${3:to}${3/.(.*)/(?1:\})/})
+endsnippet
