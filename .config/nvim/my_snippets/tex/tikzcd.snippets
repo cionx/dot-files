@@ -4,7 +4,7 @@ def new_arrow(expr):
 
     # the orientation of the arrow
     orientation = parts[0]
-    
+
     # options for the arrow style
     preoptions = parts[1]
     bend      = ''
@@ -88,7 +88,7 @@ endglobal
 snippet "a :(.*):$" "shortcut for tikzcd arrows" rb
 `!p snip.rv = new_arrow(match.group(1))`
 endsnippet
-  
+
 snippet "a: *" "shortcut for shortcut for tikzcd arrows" rb
 a : ${1:orientation} : ${2:arrow options} : ${3:label} : ${4:label options} :$0
 endsnippet
@@ -114,7 +114,7 @@ def createcd(n,m):
         newrow = "\n" + "% row " + str(i+1)
         newrow += row
         allrows.append(newrow)
-		# create everything
+    # create everything
     result = ""
     result += "\\begin{tikzcd}"
     result += "\n\\\\".join( allrows )
@@ -130,8 +130,8 @@ endsnippet
 
 snippet "cd s(quare)?" "generic square diagram" rb
 \[
-  \begin{tikzcd}
-	  A$0
+	\begin{tikzcd}
+		A$0
 		\arrow{r}[above]{}
 		\arrow{d}[left]{}
 		&

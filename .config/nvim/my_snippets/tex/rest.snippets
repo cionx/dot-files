@@ -1,24 +1,4 @@
-##### INLINE MATH
-
-snippet "\s[$]" "tilde for inline math" r
-~$
-endsnippet
-
-#snippet "\$(\s*)(.*)(\s*)\$" "parentheses for inline math" r
-#\( `!p snip.rv=match.group(2)` \)
-#endsnippet
-
-
-
-
-
-
-
 ##### MATH SHORTCUTS
-
-snippet "( c: )|( :c )" "function colon" rA
- \colon 
-endsnippet
 
 snippet set "\{ \}"
 \\{ ${1:elements} \suchthat ${2:conditions} \\}$0
@@ -32,38 +12,35 @@ snippet bigset "\{ \}" b
 \\}
 endsnippet
 
-snippet "mulset|multset|multiset" "multiline set descriptions" rb
+snippet multiset "multiline set descriptions" b
 \left\\\{
   $0
   \suchthat*
   \begin{tabular}{@{}c@{}}
-    
+		
     \\\\
-    
+		
   \end{tabular}
 \right\\\}
 endsnippet
 
-
-
-
-
-
-snippet "([a-zA-Z])bar" "overline a letter" ri
-\overline{`!p snip.rv=match.group(1)`}
+snippet func "function in display math"
+\\[
+	$1
+	\\colon
+	$2
+	\\to
+	$3 \\,,
+	\\quad
+	$4
+	\\mapsto
+	$5
+\\]
+$0
 endsnippet
 
-snippet "([A-Z])cal" "mathcal a letter" ri
-\mathcal{`!p snip.rv=match.group(1)`}
+snippet ZZ "\Integer" i
+\\Integer
 endsnippet
-
-snippet "([a-zA-Z])hat" "widehat a letter" ri
-\widehat{`!p snip.rv=match.group(1)`}
-endsnippet
-
-
-
-
-
 
 

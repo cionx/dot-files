@@ -1,4 +1,4 @@
-snippet "~?\$ *([^\$]*[^ ]) *\$eqn" "convert inline math into display math" r
+snippet "~?\$\s*([^\$]*)\s*\$eqn" "convert inline math into display math" r
 
 \[
 	`!p snip.rv=match.group(1)`
@@ -6,7 +6,7 @@ snippet "~?\$ *([^\$]*[^ ]) *\$eqn" "convert inline math into display math" r
 
 endsnippet
 
-snippet "beg(in)?" "\begin{} \end{}" rb
+snippet begin "\begin{} \end{}" b
 \begin{$1}
 	$0
 \end{$1}
@@ -19,7 +19,7 @@ snippet align "align* environment" b
 \end{align*}
 endsnippet
 
-snippet "eqn|equation" "\[ \] environment" rb
+snippet equation "\[ \] environment" b
 \[
 	$0
 \]
@@ -31,28 +31,28 @@ snippet cases "cases environment" b
 \end{cases*}
 endsnippet
 
-snippet "corollary|cor" "corollary environment" rb
+snippet corollary "corollary environment" b
 \begin{corollary}
 	$0
 \end{corollary}
 
 endsnippet
 
-snippet "def(i(nition)?)?" "definition environment" rb
+snippet definition "definition environment" b
 \begin{definition}
 	$0
 \end{definition}
 
 endsnippet
 
-snippet "lenum|enumerate" "enumerate environment" rb
+snippet enumerate "enumerate environment" b
 \begin{enumerate}
 	\item
 		$0
 \end{enumerate}
 endsnippet
 
-snippet "example|expl|exp" "example environment" rb
+snippet example "example environment" b
 \begin{example}
 	$0
 \end{example}
@@ -66,26 +66,26 @@ snippet fluff "fluff environment" b
 
 endsnippet
 
-snippet "gather|gath|gth" "gather environment" rb
+snippet gather "gather environment" b
 \begin{gather*}
 	$0
 \end{gather*}
 
 endsnippet
 
-snippet "\s{2}item" "item for a list" brA
+snippet "\s{2}item" "item for a list" rb
 	\item
 		$0
 endsnippet
 
-snippet "litem|itemize" "itemize environment" rb
+snippet itemize "itemize environment" b
 \begin{itemize}
 	\item
 		$0
 \end{itemize}
 endsnippet
 
-snippet "lem(ma)?" "lemma environment" rb
+snippet lemma "lemma environment" b
 \begin{lemma}
 	$0
 \end{lemma}
@@ -99,35 +99,35 @@ snippet proof "proof environment" b
 
 endsnippet
 
-snippet "prop(osition)?" "proposition environment" rb
+snippet proposition "proposition environment" b
 \begin{proposition}
 	$0
 \end{proposition}
 
 endsnippet
 
-snippet "rec(all)?" "recall environment" rb
+snippet recall "recall environment" b
 \begin{recall}
 	$0
 \end{recall}
 
 endsnippet
 
-snippet "remark|rem|rmk" "remark environment" rb
+snippet remark "remark environment" b
 \begin{remark}
 	$0
 \end{remark}
 
 endsnippet
 
-snippet "theorem|thrm|thm|thr" "theorem environment" rb
+snippet theorem "theorem environment" b
 \begin{theorem}
 	$0
 \end{theorem}
 
 endsnippet
 
-snippet "tikzcd|tcd|cd" "tikz-cd environment" rb
+snippet tikzcd "tikz-cd environment" b
 \[
 	\begin{tikzcd}
 		$0
@@ -135,7 +135,7 @@ snippet "tikzcd|tcd|cd" "tikz-cd environment" rb
 \]
 endsnippet
 
-snippet "warn(ing)?" "warning environment" rb
+snippet warning "warning environment" b
 \begin{warning}
 	$0
 \end{warning}
