@@ -19,8 +19,9 @@ set path+=**
 :set list
 :set listchars=tab:__,trail:S,nbsp:~
 
-" show relative line numbers
-:set number
+" show relative line numbers,
+" but absolute current line number
+:set number relativenumber
 
 " show 15 more lines
 :set scrolloff=15
@@ -71,9 +72,22 @@ vnoremap d "_d
 :noremap <C-Left> gT
 
 " switching hlsearch on/off
-:nnoremap <silent><expr> <Leader>h (&hls && v:hlsearch ? ':nohls' : ':set hls')."\n"
+:nnoremap h <Nop>
+:nnoremap <silent><expr> hl (&hls && v:hlsearch ? ':nohls' : ':set hls')."\n"
 
+" adjust a i e for KOY keyboard layout
+:nnoremap a e
+:nnoremap e i
+:nnoremap i a
 
+:nnoremap l <Nop>
+:nnoremap le <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
+:nnoremap lN <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
+:nnoremap ln <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
+:nnoremap la <cmd>lua vim.lsp.buf.code_action()<CR>
+:nnoremap ld <cmd>lua vim.lsp.buf.definition()<CR>
+:nnoremap lh <cmd>lua vim.lsp.buf.hover()<CR>
+:nnoremap lr <cmd>lua vim.lsp.buf.rename()<CR>
 
 
 """"" POPUP MENU
@@ -93,10 +107,16 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'lervag/vimtex'
 " snippets
 Plug 'SirVer/ultisnips'
+" CHADtree
+"Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
 " Neovim language server configurations
 Plug 'neovim/nvim-lspconfig'
-" CHADtree
-Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
+" Neovim tree-sitter
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+" Jupyter notebooks
+Plug 'untitled-ai/jupyter_ascending.vim'
+" Jupyter notebooks again
+Plug 'bfredl/nvim-ipy'
 " Smart tabs: Indent with tabs, align with spaces
 Plug 'dpc/vim-smarttabs'
 " Completion
@@ -139,7 +159,7 @@ let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
 
 " completion sources, adding buffers
 let g:completion_chain_complete_list = [
-    \{'complete_items': ['lsp', 'snippet', 'buffers']},
+    \{'complete_items': ['lsp', 'snippet', 'path', 'buffers']},
     \{'mode': '<c-p>'},
     \{'mode': '<c-n>'}
 \]
@@ -159,7 +179,7 @@ let g:UltiSnipsSnippetDirectories=['UltiSnips', 'my_snippets']
 
 
 """"" ChadTree
-:nnoremap <silent> <Leader>c :CHADopen<CR>
+":nnoremap <silent> <Leader>c :CHADopen<CR>
 
 
 
@@ -170,7 +190,18 @@ lua << EOF
 
 local lsconfig = require('lspconfig')
 
-lsconfig.pyright.setup{}
+lsconfig.pyright.setup{
+	settings = {
+		python = {
+			autoImportCompletions = true,
+			autoSearchPaths = true,
+			extraPaths = {"."},
+			typeCheckingMode = "strict",
+			logLevel = "Trace",
+			useLibraryCodeForTypes = true
+		}
+	}
+}
 
 lsconfig.texlab.setup{
 	filetypes = { "tex", "plaintex", "sty", "cls", "bib" },
@@ -190,9 +221,26 @@ lsconfig.texlab.setup{
 	}
 }
 
+require'nvim-treesitter.configs'.setup {
+	ensure_installed = { "python" },
+	ignore_install = { }, -- List of parsers to ignore installing
+	highlight = {
+		enable = true,
+		disable = { }       -- list of language that will be disabled
+	},
+	indentation = {
+		enable = true,
+		disable = { }
+	}
+}
+
 EOF
 
 
+
+""""" TEXLAB
+
+:nnoremap <M-2>
 
 
 """"" VIMTEX
@@ -202,7 +250,7 @@ let g:tex_flavor = 'latex'
 let g:vimtex_compiler_latexmk = {'continuous' : 0}
 :nmap <M-2> :wall<Return>:VimtexCompile<Return>
 :nmap <M-3> :VimtexView<Return>
- 
+
 let g:vimtex_delim_toggle_mod_list = [
 	\ ['\bigl', '\bigr'],
 	\ ['\Bigl', '\Bigr'],
@@ -219,6 +267,19 @@ let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
 let g:vimtex_view_general_options_latexmk = '--unique'
 
 
+" JUPYTER / IPYTHON
+
+command! -nargs=0 RunQtConsole call jobstart("jupyter qtconsole --JupyterWidget.include_other_output=True")
+
+let g:ipy_celldef = '^# %%' " regex for cell start and end
+
+nnoremap j <Nop>
+let g:nvim_ipy_perform_mappings = 0
+
+nmap jqt  <cmd>RunQtConsole<Enter>
+nmap jk   <cmd>IPython<Space>--existing<Space>--no-window<Enter>
+nmap jc   <Plug>(IPy-RunCell)
+nmap ja   <Plug>(IPy-RunAll)
 
 
 """"" COLOUR SETTINGS

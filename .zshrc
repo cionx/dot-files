@@ -97,7 +97,11 @@ HISTFILE=~/.histfile
 HISTSIZE=100000000
 SAVEHIST=100000000
 
-export PATH=$PATH:/home/cionx/bin
+# SSH per GPG
+export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+gpgconf --launch gpg-agent
+
+export PATH=$PATH:/home/cionx/bin:/home/cionx/.local/bin/
 
 export EDITOR="/usr/bin/nvim"
 
@@ -107,3 +111,4 @@ alias gcc="gcc -Wall -Wextra"
 function generatevorbis() { find $1 -name "*.flac" -print0 | xargs -0 -n 1 -P 8 oggenc -Q -q$2 }
 
 function albumgain() { mp3gain $1 $1 }
+
