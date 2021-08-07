@@ -79,6 +79,12 @@ vnoremap d "_d
 :nnoremap a e
 :nnoremap e i
 :nnoremap i a
+:nnoremap A E
+
+:vnoremap a e
+:vnoremap e i
+:vnoremap i a
+:vnoremap A E
 
 :nnoremap l <Nop>
 :nnoremap le <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
@@ -203,21 +209,40 @@ lsconfig.pyright.setup{
 	}
 }
 
+--[[
 lsconfig.texlab.setup{
 	filetypes = { "tex", "plaintex", "sty", "cls", "bib" },
 	settings = {
-		latex = {
+		texlab = {
 			build = {
 				args = {"-interaction=nonstopmode", "-synctex=1", "%f"},
 			},
 			forwardSearch = {
 				executable = "okular",
 				args = {"--unique", "%p#src:%l%f"}
-			},
-			lint = {
-				onSave = true
 			}
 		}
+	}
+}
+]]
+
+lsconfig.texlab.setup{
+	filetypes = { "tex", "plaintex", "sty", "cls", "bib" },
+	settings = {
+			texlab = {
+					build = {
+							isContinuous = true,
+					},
+					chktex = {
+							onEdit = false,
+							onOpenAndSave = false,
+					},
+					formatterLineLength = 100,
+					forwardSearch = {
+							executable = "okular",
+							args = { "--unique", "%p#src:%l%f" }
+					}
+			}
 	}
 }
 
@@ -239,8 +264,6 @@ EOF
 
 
 """"" TEXLAB
-
-:nnoremap <M-2>
 
 
 """"" VIMTEX
