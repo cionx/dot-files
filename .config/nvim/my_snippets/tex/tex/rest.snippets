@@ -1,0 +1,46 @@
+##### MATH SHORTCUTS
+
+snippet set "\{ \}"
+\\{ ${1:elements} \suchthat ${2:conditions} \\}$0
+endsnippet
+
+snippet bigset "\{ \}" b
+\\{
+	$0
+\suchthat
+	
+\\}
+endsnippet
+
+snippet multiset "multiline set descriptions" b
+\left\\\{
+  $0
+  \suchthat*
+  \begin{tabular}{@{}c@{}}
+		
+    \\\\
+		
+  \end{tabular}
+\right\\\}
+endsnippet
+
+snippet func "function in display math"
+\\[
+	$1
+	\\colon
+	$2
+	\\to
+	$3 \\,,
+	\\quad
+	$4
+	\\mapsto
+	$5
+\\]
+$0
+endsnippet
+
+snippet ZZ "\Integer" i
+\\Integer
+endsnippet
+
+
