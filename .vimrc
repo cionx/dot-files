@@ -1,8 +1,5 @@
 """"" GENERAL LAYOUT AND BEHAVIOR
 
-" colour theme
-colorscheme gruvbox
-
 " enter the current millenium
 set nocompatible
 
@@ -109,10 +106,12 @@ vnoremap d "_d
 
 call plug#begin('~/.config/nvim/plugged')
 
+" comments
+Plug 'numToStr/Comment.nvim'
 " vimtex
 Plug 'lervag/vimtex'
 " snippets
-Plug 'SirVer/ultisnips'
+" Plug 'SirVer/ultisnips'
 " CHADtree
 "Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
 " Neovim language server configurations
@@ -120,55 +119,78 @@ Plug 'neovim/nvim-lspconfig'
 " Neovim tree-sitter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 " Jupyter notebooks
-Plug 'untitled-ai/jupyter_ascending.vim'
+" Plug 'untitled-ai/jupyter_ascending.vim'
 " Jupyter notebooks again
-Plug 'bfredl/nvim-ipy'
+" Plug 'bfredl/nvim-ipy'
 " Smart tabs: Indent with tabs, align with spaces
-Plug 'dpc/vim-smarttabs'
-" Completion
-Plug 'nvim-lua/completion-nvim'
-" Buffer Completion
-Plug 'steelsojka/completion-buffers'
+" Plug 'dpc/vim-smarttabs'
+" Plug 'Thyrum/vim-stabs'
+" " Completion
+" Plug 'nvim-lua/completion-nvim'
+" " Buffer Completion
+" Plug 'steelsojka/completion-buffers'
+" Completion (current)
+Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
+Plug 'ms-jpq/coq.thirdparty'
+" Telescope
+" Plug 'nvim-lua/plenary.nvim'
+" Plug 'nvim-telescope/telescope.nvim'
 " gruvbox theme
-Plug 'morhetz/gruvbox'
+"Plug 'morhetz/gruvbox'
+" kanagawa theme
+Plug 'rebelot/kanagawa.nvim'
+" FireNvim
+" Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 
 call plug#end()
 
 
+" colour theme
+colorscheme kanagawa
 
 
-""""" COMPLETION
+""""" COMPLETION (OLD)
 
-" Use completion-nvim in every buffer
-autocmd BufEnter * lua require'completion'.on_attach()
+"" Use completion-nvim in every buffer
+"autocmd BufEnter * lua require'completion'.on_attach()
+"
+"" Use <Down> and <Up> to navigate through popup menu
+" inoremap <expr> <Down>  pumvisible() ? "\<C-n>" : "\<Down>"
+" inoremap <expr> <Up>    pumvisible() ? "\<C-p>" : "\<Up>"
+"
+"" Set completeopt to have a better completion experience
+" set completeopt=menuone,noinsert,noselect
+"
+"" Avoid showing message extra message when using completion
+"set shortmess+=c
+"
+"let g:completion_trigger_keyword_length=3
+"let g:completion_enable_server_trigger = 0
+"let g:completion_word_min_length=5
+"let g:completion_word_min_length=5
+"
+"" possible value: 'UltiSnips', 'Neosnippet', 'vim-vsnip', 'snippets.nvim'
+"let g:completion_enable_snippet = 'UltiSnips'
+"
+"" matching stategy
+"let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
+"
+"" completion sources, adding buffers
+"let g:completion_chain_complete_list = [
+"    \{'complete_items': ['lsp', 'snippet', 'path', 'buffers']},
+"    \{'mode': '<c-p>'},
+"    \{'mode': '<c-n>'}
+"\]
+
+" the [-s, --shut-up] flag will remove the greeting message
+let g:coq_settings = {
+\	'auto_start': 'shut-up'
+\}
 
 " Use <Down> and <Up> to navigate through popup menu
 inoremap <expr> <Down>  pumvisible() ? "\<C-n>" : "\<Down>"
 inoremap <expr> <Up>    pumvisible() ? "\<C-p>" : "\<Up>"
 
-" Set completeopt to have a better completion experience
-set completeopt=menuone,noinsert,noselect
-
-" Avoid showing message extra message when using completion
-set shortmess+=c
-
-let g:completion_trigger_keyword_length=3
-let g:completion_enable_server_trigger = 0
-let g:completion_word_min_length=5
-let g:completion_word_min_length=5
-
-" possible value: 'UltiSnips', 'Neosnippet', 'vim-vsnip', 'snippets.nvim'
-let g:completion_enable_snippet = 'UltiSnips'
-
-" matching stategy
-let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
-
-" completion sources, adding buffers
-let g:completion_chain_complete_list = [
-    \{'complete_items': ['lsp', 'snippet', 'path', 'buffers']},
-    \{'mode': '<c-p>'},
-    \{'mode': '<c-n>'}
-\]
 
 
 
@@ -194,8 +216,11 @@ let g:UltiSnipsSnippetDirectories=['UltiSnips', 'my_snippets']
 
 lua << EOF
 
+require('Comment').setup()
+
 local lsconfig = require('lspconfig')
 
+--[[
 lsconfig.pyright.setup{
 	settings = {
 		python = {
@@ -208,6 +233,7 @@ lsconfig.pyright.setup{
 		}
 	}
 }
+]]
 
 --[[
 lsconfig.texlab.setup{
@@ -225,6 +251,8 @@ lsconfig.texlab.setup{
 	}
 }
 ]]
+
+lsconfig.pylsp.setup{}
 
 lsconfig.texlab.setup{
 	filetypes = { "tex", "plaintex", "sty", "cls", "bib" },
@@ -246,7 +274,9 @@ lsconfig.texlab.setup{
 	}
 }
 
-require'nvim-treesitter.configs'.setup {
+lsconfig.tsserver.setup{}
+
+require('nvim-treesitter.configs').setup {
 	ensure_installed = { "python" },
 	ignore_install = { }, -- List of parsers to ignore installing
 	highlight = {
@@ -257,6 +287,10 @@ require'nvim-treesitter.configs'.setup {
 		enable = true,
 		disable = { }
 	}
+}
+
+require("coq_3p") {
+  { src = "vimtex", short_name = "vTEX" }
 }
 
 EOF
@@ -287,7 +321,7 @@ let g:vimtex_compiler_progname = 'nvr'
 let g:vimtex_view_method = 'general'
 let g:vimtex_view_general_viewer = 'okular'
 let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
-let g:vimtex_view_general_options_latexmk = '--unique'
+" let g:vimtex_view_general_options_latexmk = '--unique'
 
 
 " JUPYTER / IPYTHON
