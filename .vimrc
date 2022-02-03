@@ -23,27 +23,25 @@ set path+=**
 " show 15 more lines
 :set scrolloff=15
 
-" no concealment
-" I don’t use it and it fucks up highlighting
-let g:tex_conceal = ""
-
 " switch between document tabs without saving
 :set hidden
 
 " always show document tabs
 :set showtabline=2
 
+" enable the usual sofwraps and navigation inside them
+:set wrap
+:set linebreak
+":set nolist
 
+" configuration of the completion menu
+set completeopt=menu,menuone,noselect
+
+" I don’t like it.
+let g:tex_conceal = ""
 
 
 """"" KEY BINDINGS
-
-" keys for entering and existing normal mode and insertion mode
-":nnoremap h i
-":nnoremap <C-h> i
-":inoremap <C-h> <Esc>
-":nnoremap i <Nop>
-":nnoremap a <Nop>
 
 " change leader
 let mapleader = " "
@@ -52,17 +50,10 @@ let mapleader = " "
 nnoremap d "_d
 vnoremap d "_d
 
-" enable the usual sofwraps and navigation inside them
-:set wrap
-:set linebreak
-":set nolist
 :nnoremap <Up> gk
 :inoremap <Up> <C-o>gk
 :nnoremap <Down> gj
 :inoremap <Down> <C-o>gj
-
-" quickref
-:noremap <C-l> <C-]>
 
 " switching between document tabs
 :noremap <C-Right> gt
@@ -73,32 +64,26 @@ vnoremap d "_d
 :nnoremap <silent><expr> hl (&hls && v:hlsearch ? ':nohls' : ':set hls')."\n"
 
 " adjust a i e for KOY keyboard layout
-:nnoremap a e
-:nnoremap e i
-:nnoremap i a
-:nnoremap A E
-
-:vnoremap a e
-:vnoremap e i
+nnoremap i a
+:nnoremap a i
 :vnoremap i a
-:vnoremap A E
+:vnoremap a i
 
+" language server
 :nnoremap l <Nop>
-:nnoremap le <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
-:nnoremap lN <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
-:nnoremap ln <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
+:nnoremap le <cmd>lua vim.diagnostic.open_float()<CR>
+:nnoremap lN <cmd>lua vim.diagnostic.goto_prev()<CR>
+:nnoremap ln <cmd>lua vim.diagnostic.goto_next()<CR>
 :nnoremap la <cmd>lua vim.lsp.buf.code_action()<CR>
+:nnoremap lD <cmd>lua vim.lsp.buf.declaration()<CR>
 :nnoremap ld <cmd>lua vim.lsp.buf.definition()<CR>
+:nnoremap lf <cmd>lua vim.lsp.buf.formatting()<CR>
 :nnoremap lh <cmd>lua vim.lsp.buf.hover()<CR>
-:nnoremap lr <cmd>lua vim.lsp.buf.rename()<CR>
-
-
-""""" POPUP MENU
-" Maximum number of items to show in popup menu
-" Pesudo blend effect for popup menu
-" set pumblend=1
-" Don’t blend current entry
-" hi PmenuSel blend=0
+:nnoremap li <cmd>lua vim.lsp.buf.implementation()<CR>
+:nnoremap lm <cmd>lua vim.lsp.buf.rename()<CR>
+:nnoremap lr <cmd>lua vim.lsp.buf.references()<CR>
+:nnoremap ls <cmd>lua vim.lsp.buf.signature_help()<CR>
+:nnoremap lt <cmd>lua vim.lsp.buf.type_definition()<CR>
 
 
 
@@ -106,109 +91,39 @@ vnoremap d "_d
 
 call plug#begin('~/.config/nvim/plugged')
 
-" comments
-Plug 'numToStr/Comment.nvim'
-" vimtex
-Plug 'lervag/vimtex'
-" snippets
-" Plug 'SirVer/ultisnips'
-" CHADtree
-"Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
 " Neovim language server configurations
 Plug 'neovim/nvim-lspconfig'
+
 " Neovim tree-sitter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-" Jupyter notebooks
-" Plug 'untitled-ai/jupyter_ascending.vim'
-" Jupyter notebooks again
-" Plug 'bfredl/nvim-ipy'
-" Smart tabs: Indent with tabs, align with spaces
-" Plug 'dpc/vim-smarttabs'
-" Plug 'Thyrum/vim-stabs'
-" " Completion
-" Plug 'nvim-lua/completion-nvim'
-" " Buffer Completion
-" Plug 'steelsojka/completion-buffers'
-" Completion (current)
-Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
-Plug 'ms-jpq/coq.thirdparty'
-" Telescope
-" Plug 'nvim-lua/plenary.nvim'
-" Plug 'nvim-telescope/telescope.nvim'
-" gruvbox theme
-"Plug 'morhetz/gruvbox'
+
+" snippets
+Plug 'SirVer/ultisnips'
+
+" Completion
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-omni'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
+" For ultisnips users
+Plug 'SirVer/ultisnips'
+Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+" For pictograms
+Plug 'onsails/lspkind-nvim'
+"
+" vimtex
+Plug 'lervag/vimtex'
+
+" lean support
+Plug 'Julian/lean.nvim'
+Plug 'nvim-lua/plenary.nvim'
+
 " kanagawa theme
 Plug 'rebelot/kanagawa.nvim'
-" FireNvim
-" Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 
 call plug#end()
-
-
-" colour theme
-colorscheme kanagawa
-
-
-""""" COMPLETION (OLD)
-
-"" Use completion-nvim in every buffer
-"autocmd BufEnter * lua require'completion'.on_attach()
-"
-"" Use <Down> and <Up> to navigate through popup menu
-" inoremap <expr> <Down>  pumvisible() ? "\<C-n>" : "\<Down>"
-" inoremap <expr> <Up>    pumvisible() ? "\<C-p>" : "\<Up>"
-"
-"" Set completeopt to have a better completion experience
-" set completeopt=menuone,noinsert,noselect
-"
-"" Avoid showing message extra message when using completion
-"set shortmess+=c
-"
-"let g:completion_trigger_keyword_length=3
-"let g:completion_enable_server_trigger = 0
-"let g:completion_word_min_length=5
-"let g:completion_word_min_length=5
-"
-"" possible value: 'UltiSnips', 'Neosnippet', 'vim-vsnip', 'snippets.nvim'
-"let g:completion_enable_snippet = 'UltiSnips'
-"
-"" matching stategy
-"let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
-"
-"" completion sources, adding buffers
-"let g:completion_chain_complete_list = [
-"    \{'complete_items': ['lsp', 'snippet', 'path', 'buffers']},
-"    \{'mode': '<c-p>'},
-"    \{'mode': '<c-n>'}
-"\]
-
-" the [-s, --shut-up] flag will remove the greeting message
-let g:coq_settings = {
-\	'auto_start': 'shut-up'
-\}
-
-" Use <Down> and <Up> to navigate through popup menu
-inoremap <expr> <Down>  pumvisible() ? "\<C-n>" : "\<Down>"
-inoremap <expr> <Up>    pumvisible() ? "\<C-p>" : "\<Up>"
-
-
-
-
-
-
-""""" SNIPPET CONFIGURATION
-
-let g:UltiSnipsExpandTrigger='<F3>'
-let g:UltiSnipsJumpForwardTrigger='<F4>'
-let g:UltiSnipsJumpBackwardTrigger='<s-F4>'
-let g:UltiSnipsSnippetDirectories=['UltiSnips', 'my_snippets']
-
-
-
-
-""""" ChadTree
-":nnoremap <silent> <Leader>c :CHADopen<CR>
-
 
 
 
@@ -216,43 +131,46 @@ let g:UltiSnipsSnippetDirectories=['UltiSnips', 'my_snippets']
 
 lua << EOF
 
-require('Comment').setup()
+--[[ Language Servers --]]
 
 local lsconfig = require('lspconfig')
 
---[[
-lsconfig.pyright.setup{
-	settings = {
-		python = {
-			autoImportCompletions = true,
-			autoSearchPaths = true,
-			extraPaths = {"."},
-			typeCheckingMode = "strict",
-			logLevel = "Trace",
-			useLibraryCodeForTypes = true
-		}
-	}
-}
-]]
+-- rust
 
---[[
-lsconfig.texlab.setup{
-	filetypes = { "tex", "plaintex", "sty", "cls", "bib" },
-	settings = {
-		texlab = {
-			build = {
-				args = {"-interaction=nonstopmode", "-synctex=1", "%f"},
-			},
-			forwardSearch = {
-				executable = "okular",
-				args = {"--unique", "%p#src:%l%f"}
-			}
-		}
-	}
-}
-]]
+lsconfig.rust_analyzer.setup{}
+
+-- python
 
 lsconfig.pylsp.setup{}
+
+-- ltex
+
+local readfile = vim.fn.readfile
+local wordfile = {}
+wordfile['en-GB']  = 'words-en.txt'
+local drulesfile = {}
+drulesfile['en-GB'] = 'disabled-rules-en.txt'
+
+lsconfig.ltex.setup{
+	settings = {
+		ltex = {
+			additionalRules = {
+				enablePickyRules = true,
+				motherTongue = 'de-DE',
+			},
+			checkFrequency = 'save',
+			dictionary = {
+				['en-GB'] = readfile( vim.env.HOME .. '/.ltex/' .. wordfile['en-GB'] ),
+			},
+			disabledRules = {
+				['en-GB'] = readfile( vim.env.HOME .. '/.ltex/' .. drulesfile['en-GB'] ),
+			},
+			language = 'en-GB',
+		}
+	}
+}
+
+-- texlab
 
 lsconfig.texlab.setup{
 	filetypes = { "tex", "plaintex", "sty", "cls", "bib" },
@@ -274,33 +192,194 @@ lsconfig.texlab.setup{
 	}
 }
 
+-- typescript
+
 lsconfig.tsserver.setup{}
 
-require('nvim-treesitter.configs').setup {
-	ensure_installed = { "python" },
-	ignore_install = { }, -- List of parsers to ignore installing
+--[[ Tree-sitter --]]
+
+require'nvim-treesitter.configs'.setup {
+	-- One of "all", "maintained" (parsers with maintainers), or a list of languages
+	ensure_installed = {"latex"},
+
+	-- Install languages synchronously (only applied to `ensure_installed`)
+	sync_install = false,
+
+	-- List of parsers to ignore installing
+	ignore_install = { },
+
 	highlight = {
+		-- `false` will disable the whole extension
 		enable = true,
-		disable = { }       -- list of language that will be disabled
+
+		-- list of language that will be disabled
+		disable = { },
+
+		-- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+		-- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+		-- Using this option may slow down your editor, and you may see some duplicate highlights.
+		-- Instead of true it can also be a list of languages
+		additional_vim_regex_highlighting = false,
 	},
-	indentation = {
-		enable = true,
-		disable = { }
-	}
 }
 
-require("coq_3p") {
-  { src = "vimtex", short_name = "vTEX" }
+--[[ Completion (nvim-cmp) --]]
+
+local t = function(str)
+	return vim.api.nvim_replace_termcodes(str, true, true, true)
+end
+
+local cmp = require'cmp'
+
+local kind_icons = {
+	Class = "ﴯ",
+	Color = "",
+	Constant = "",
+	Constructor = "",
+	Enum = "",
+	EnumMember = "",
+	Event = "",
+	Field = "",
+	File = "",
+	Folder = "",
+	Function = "",
+	Interface = "",
+	Keyword = "",
+	Method = "",
+	Module = "",
+	Operator = "",
+	Property = "ﰠ",
+	Reference = "",
+	Snippet = "",
+	Struct = "",
+	Text = "",
+	TypeParameter = "",
+	Unit = "",
+	Value = "",
+	Variable = "",
 }
+
+cmp.setup({
+	-- Copied from https://github.com/hrsh7th/nvim-cmp/wiki/Menu-Appearance
+	formatting = {
+		format = function(entry, vim_item)
+			-- Kind icons
+			vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
+			-- Source
+			return vim_item
+		end
+	},
+	snippet = {
+		-- REQUIRED - you must specify a snippet engine
+		expand = function(args)
+			-- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+			-- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+			-- require('snippy').expand_snippet(args.body) -- For `snippy` users.
+			vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+		end,
+	},
+	mapping = {
+		['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+		['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+		['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+		['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
+		['<C-e>'] = cmp.mapping({
+			i = cmp.mapping.abort(),
+			c = cmp.mapping.close(),
+		}),
+		['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+		["<Tab>"] = cmp.mapping.select_next_item({behavior=cmp.SelectBehavior.Insert}),
+		["<S-Tab>"] = cmp.mapping.select_prev_item({behavior=cmp.SelectBehavior.Insert}),
+		["<Up>"] = cmp.mapping({
+			i =
+			function()
+				cmp.abort()
+				vim.api.nvim_feedkeys(t('<Up>'), 'n', true)
+			end,
+			c =
+			function()
+				cmp.close()
+				vim.api.nvim_feedkeys(t('<Up>'), 'n', true)
+			end,
+		}),
+		["<Down>"] = cmp.mapping({
+			i =
+			function()
+				cmp.abort()
+				vim.api.nvim_feedkeys(t('<Down>'), 'n', true)
+			end,
+			c =
+			function()
+				cmp.close()
+				vim.api.nvim_feedkeys(t('<Down>'), 'n', true)
+			end,
+		}),
+	},
+	sources = cmp.config.sources({
+		{ name = 'nvim_lsp' },
+		{ name = 'ultisnips' },
+		{ name = 'omni' },
+		{ name = 'buffer',
+			option = {
+				keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w*\%([\-.]\w*\)*\)]]
+			}
+		},
+	})
+})
+
+-- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline('/', {
+	sources = {
+		{ name = 'buffer' }
+	}
+})
+
+-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline(':', {
+	sources = cmp.config.sources({
+		{ name = 'path' }
+	}, {
+		{ name = 'cmdline' }
+	})
+})
+
+-- Setup lspconfig.
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+
+-- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
+require('lspconfig')['texlab'].setup {
+	capabilities = capabilities
+}
+
+--[[ Lean --]]
+
+require('lean').setup{
+  abbreviations = { builtin = true },
+  lsp = { on_attach = on_attach },
+  lsp3 = { on_attach = on_attach },
+  mappings = true,
+}
+
+--[[ Kanagawa Color Scheme --]]
+
+require('kanagawa').setup({
+    transparent = true,
+})
 
 EOF
 
 
 
-""""" TEXLAB
+""""" SNIPPET CONFIGURATION
+
+let g:UltiSnipsExpandTrigger='<F2>'
+let g:UltiSnipsJumpForwardTrigger='<Tab>'
+let g:UltiSnipsJumpBackwardTrigger='<S-Tab>'
+let g:UltiSnipsSnippetDirectories=['UltiSnips', 'my_snippets']
 
 
-""""" VIMTEX
+
+""""" VIMTEX CONFIGURATION
 
 let g:tex_flavor = 'latex'
 
@@ -324,22 +403,11 @@ let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
 " let g:vimtex_view_general_options_latexmk = '--unique'
 
 
-" JUPYTER / IPYTHON
-
-command! -nargs=0 RunQtConsole call jobstart("jupyter qtconsole --JupyterWidget.include_other_output=True")
-
-let g:ipy_celldef = '^# %%' " regex for cell start and end
-
-nnoremap j <Nop>
-let g:nvim_ipy_perform_mappings = 0
-
-nmap jqt  <cmd>RunQtConsole<Enter>
-nmap jk   <cmd>IPython<Space>--existing<Space>--no-window<Enter>
-nmap jc   <Plug>(IPy-RunCell)
-nmap ja   <Plug>(IPy-RunAll)
-
 
 """"" COLOUR SETTINGS
+
+" colour theme
+colorscheme kanagawa
 
 " highlight of line numbers
 " :highlight LineNr ctermfg=red
