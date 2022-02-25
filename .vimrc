@@ -44,7 +44,7 @@ let g:tex_conceal = ""
 """"" KEY BINDINGS
 
 " change leader
-let mapleader = " "
+let mapleader = ","
 
 " deleting doesn’t overwritte the buffer
 nnoremap d "_d
@@ -146,14 +146,24 @@ lsconfig.pylsp.setup{}
 -- ltex
 
 local readfile = vim.fn.readfile
+
 local wordfile = {}
 wordfile['en-GB']  = 'words-en.txt'
+
 local drulesfile = {}
 drulesfile['en-GB'] = 'disabled-rules-en.txt'
+
+local fposfile = {}
+fposfile['en-GB'] = 'en-false-positives.json'
+
+local cmdfile = 'commands.json'
 
 lsconfig.ltex.setup{
 	settings = {
 		ltex = {
+			latex = {
+				commands = vim.json.decode( table.concat( readfile( vim.env.HOME .. '/.ltex/' .. cmdfile ), '\n' ) ),
+			},
 			additionalRules = {
 				enablePickyRules = true,
 				motherTongue = 'de-DE',
@@ -164,6 +174,9 @@ lsconfig.ltex.setup{
 			},
 			disabledRules = {
 				['en-GB'] = readfile( vim.env.HOME .. '/.ltex/' .. drulesfile['en-GB'] ),
+			},
+			hiddenFalsePositives = {
+				['en-GB'] = vim.json.decode( table.concat( readfile( vim.env.HOME .. '/.ltex/' .. fposfile['en-GB'] ), '\n' ) )
 			},
 			language = 'en-GB',
 		}

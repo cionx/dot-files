@@ -42,6 +42,6 @@ include dark-256.theme
 news.version=2.6.0
 report.next.columns=id,description,project.parent,scheduled.countdown,due.relative,until.remaining
 report.next.labels=ID,Description,Project,S,Due,Until
-report.next.filter=status:pending -WAITING -BLOCKED limit:page
+report.next.filter=status:pending -WAITING -BLOCKED -backlog limit:page
 defaultwidth=0
 urgency.user.tag.text_book.coefficient=-5.0
