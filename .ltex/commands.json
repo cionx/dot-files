@@ -1,0 +1,9 @@
+{
+	"\\glsadd{}":      "ignore",
+	"\\includeonly{}": "ignore",
+	"\\lcnamecref{}":  "dummy",
+	"\\setmainfont{}": "ignore",
+	"\\setmathfont{i": "ignore",
+	"\\setmonofont{i": "ignore",
+	"\\setsansfont{}": "ignore"
+}

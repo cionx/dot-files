@@ -1,0 +1,13 @@
+{
+	"ltex": {
+		"language": "en-GB",
+		"additionalRules" : {
+			"enablePickyRules" : true
+		},
+		"hiddenFalsePositives" : {
+			"en-GB": [
+				{ "rule": "CAPITALIZATION_NNP_DERIVED", "sentence": "abelian" }
+			]
+		}
+	}
+}

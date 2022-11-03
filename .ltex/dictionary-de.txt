@@ -1,0 +1,6 @@
+Automorphismengruppen
+Isomorphismuses
+Monoiden
+nichtexpansiv
+Quotientenkategorie
+Supremumsnorm

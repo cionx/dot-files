@@ -1,0 +1,12 @@
+#! /bin/env sh
+
+NAMEFILE=dictionary-names.txt
+
+ENDICT=dictionary-en.txt
+ENWORDS=words-en.txt
+
+DEDICT=dictionary-de.txt
+DEWORDS=words-de.txt
+
+cat dictionary-en.txt dictionary-names.txt | sort --unique > words-en.txt
+cat dictionary-de.txt dictionary-names.txt | sort --unique > words-de.txt
