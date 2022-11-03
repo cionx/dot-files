@@ -96,6 +96,7 @@ Plug 'neovim/nvim-lspconfig'
 
 " Neovim tree-sitter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/playground'
 
 " snippets
 Plug 'SirVer/ultisnips'
@@ -120,6 +121,9 @@ Plug 'lervag/vimtex'
 Plug 'Julian/lean.nvim'
 Plug 'nvim-lua/plenary.nvim'
 
+" smart tabs
+Plug 'dpc/vim-smarttabs'
+
 " kanagawa theme
 Plug 'rebelot/kanagawa.nvim'
 
@@ -143,8 +147,15 @@ lsconfig.rust_analyzer.setup{}
 
 lsconfig.pylsp.setup{}
 
--- ltex
+-- html
 
+lsconfig.html.setup {
+	cmd = { 'vscode-html-languageserver', '--stdio' },
+	capabilities = capabilities,
+}
+
+-- ltex
+require'lspconfig'.ltex.setup{}
 local readfile = vim.fn.readfile
 
 local wordfile = {}
@@ -166,7 +177,6 @@ lsconfig.ltex.setup{
 			},
 			additionalRules = {
 				enablePickyRules = true,
-				motherTongue = 'de-DE',
 			},
 			checkFrequency = 'save',
 			dictionary = {
@@ -209,9 +219,11 @@ lsconfig.texlab.setup{
 
 lsconfig.tsserver.setup{}
 
+
+
 --[[ Tree-sitter --]]
 
-require'nvim-treesitter.configs'.setup {
+require('nvim-treesitter.configs').setup {
 	-- One of "all", "maintained" (parsers with maintainers), or a list of languages
 	ensure_installed = {"latex"},
 
@@ -226,7 +238,7 @@ require'nvim-treesitter.configs'.setup {
 		enable = true,
 
 		-- list of language that will be disabled
-		disable = { },
+		disable = { "latex" },
 
 		-- Setting this to true will run `:h syntax` and tree-sitter at the same time.
 		-- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
@@ -242,7 +254,7 @@ local t = function(str)
 	return vim.api.nvim_replace_termcodes(str, true, true, true)
 end
 
-local cmp = require'cmp'
+local cmp = require('cmp')
 
 local kind_icons = {
 	Class = "ﴯ",
@@ -357,26 +369,32 @@ cmp.setup.cmdline(':', {
 })
 
 -- Setup lspconfig.
-local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
-require('lspconfig')['texlab'].setup {
+lsconfig['texlab'].setup {
+	capabilities = capabilities
+}
+--[[ lsconfig['html'].setup {
+	capabilities = capabilities
+} --]]
+lsconfig['tsserver'].setup {
 	capabilities = capabilities
 }
 
 --[[ Lean --]]
 
 require('lean').setup{
-  abbreviations = { builtin = true },
-  lsp = { on_attach = on_attach },
-  lsp3 = { on_attach = on_attach },
-  mappings = true,
+	abbreviations = { builtin = true },
+	lsp = { on_attach = on_attach },
+	lsp3 = { on_attach = on_attach },
+	mappings = true,
 }
 
 --[[ Kanagawa Color Scheme --]]
 
 require('kanagawa').setup({
-    transparent = true,
+	transparent = true,
 })
 
 EOF
