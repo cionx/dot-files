@@ -4,10 +4,12 @@ Cauchy
 Dmitrievich
 Freyd
 Gerstenhaber
+Hasse
 Hausdorff
 Isomorphismuses
 Iwasawa
 Jendrik
+Kan
 Kenkichi
 Krull
 Kuratowski
@@ -22,6 +24,7 @@ Sophus
 Stelzner
 Stroppel
 Supremumsnorm
+Sweedler
 Yoneda
 Zariski
 Zorn

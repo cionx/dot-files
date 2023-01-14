@@ -3,9 +3,11 @@ Cauchy
 Dmitrievich
 Freyd
 Gerstenhaber
+Hasse
 Hausdorff
 Iwasawa
 Jendrik
+Kan
 Kenkichi
 Krull
 Kuratowski
@@ -16,6 +18,7 @@ Sierpiński
 Sophus
 Stelzner
 Stroppel
+Sweedler
 Yoneda
 Zariski
 Zorn
