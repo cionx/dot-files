@@ -1,4 +1,4 @@
-""""" GENERAL SETTINGS AND BEHAVIOR
+""""" GENERAL SETTINGS AND BEHAVIOUR
 
 " Should be this way by default, but just to make sure.
 set nocompatible
@@ -23,7 +23,7 @@ set listchars=tab:__,trail:S,nbsp:~
 " Useful for moving to a specific line on screen.
 set number relativenumber
 
-" Show at least 15 lines beneath/above the curser, if possible.
+" Show at least 15 lines beneath/above the cursor, if possible.
 set scrolloff=15
 
 " Always show document tabs
@@ -558,10 +558,10 @@ let g:EasyMotion_smartcase = 1
 
 """"" ULTISNIP CONFIGURATION
 
-let g:UltiSnipsExpandTrigger='<F2>'
-let g:UltiSnipsJumpForwardTrigger='<C-n>'
-let g:UltiSnipsJumpBackwardTrigger='<C-p>'
-let g:UltiSnipsSnippetDirectories=['UltiSnips', 'my_snippets']
+let g:UltiSnipsExpandTrigger = '<F2>'
+let g:UltiSnipsJumpForwardTrigger = '<C-n>'
+let g:UltiSnipsJumpBackwardTrigger = '<C-p>'
+let g:UltiSnipsSnippetDirectories = ['UltiSnips', 'my_snippets']
 
 
 
