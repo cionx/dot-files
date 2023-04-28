@@ -70,7 +70,7 @@ ZSH_THEME="gianu"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(taskwarrior)
+plugins=(rust)
 
 
 # User configuration
@@ -116,8 +116,8 @@ SAVEHIST=100000000
 # SSH per GPG
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 
-# also search in ~/bin for executables
-export PATH=$PATH:/home/cionx/bin/
+# also search in ~/bin and ~/.local/bin for executables
+export PATH=$PATH:/home/cionx/bin/:/home/cionx/.local/bin
 
 # use neovim as default editor
 export EDITOR="/usr/bin/nvim"
@@ -128,6 +128,12 @@ alias rm="rm -I"
 # gcc warnings please
 alias gcc="gcc -Wall -Wextra"
 
+# for downloading videos from YouTube
+alias ydl="yt-dlp -f 'bestvideo[height<=1080]+bestaudio'"
+
+# always load utop with compiler libraries available
+alias utop="utop-full"
+
 # custom functions
 function generatevorbis() { find $1 -name "*.flac" -print0 | xargs -0 -n 1 -P 8 oggenc -Q -q$2 }
 
@@ -135,6 +141,5 @@ function albumgain() { mp3gain $1 $1 }
 
 function replaceall() { grep -Irl $1 . | xargs -d '\n' sed -i "s/$1/$2/g" }
 
-# test
-lsmod >> ~/temp/modules.txt
-echo 'STOPSTOPSTOP' >> ~/temp/modules.txt
+# opam configuration
+[[ ! -r /home/cionx/.opam/opam-init/init.zsh ]] || source /home/cionx/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null

@@ -1,4 +1,5 @@
 Baer
+Burali-Forti
 Cauchy
 Dmitrievich
 Freyd
@@ -12,13 +13,20 @@ Kenkichi
 Krull
 Kuratowski
 Lebesgue
+OUnit
 Peano
 Rotman
 Sierpiński
+SimPL
 Sophus
 Stelzner
 Stroppel
 Sweedler
+Sympy
+Tarski
+utop
+Tychonoff
 Yoneda
 Zariski
+Zarith
 Zorn
