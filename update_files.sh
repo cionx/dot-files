@@ -3,11 +3,11 @@
 files=(
 	.chktexrc
 	.config/nvim/my_snippets/
+	.config/nvim/init.vim
 	.gitconfig
 	.latexmkrc
 	.ltex/
 	.mpv/
-	.vimrc
 	.XCompose
 	.zshrc
 )
