@@ -2,6 +2,7 @@ Baer
 Burali-Forti
 Cauchy
 Dmitrievich
+DrRacket
 Freyd
 Gerstenhaber
 Hasse
@@ -15,6 +16,7 @@ Kuratowski
 Lebesgue
 OUnit
 Peano
+Riehl
 Rotman
 Sierpiński
 SimPL

@@ -253,6 +253,7 @@
   content: normal;
 }
 .markdown-body code {
+  tab-size: 4;
   font-family: JuliaMono, monospace;
   font-variant-ligatures: none;
   padding: 0;

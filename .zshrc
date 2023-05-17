@@ -122,11 +122,15 @@ export PATH=$PATH:/home/cionx/bin/:/home/cionx/.local/bin
 # use neovim as default editor
 export EDITOR="/usr/bin/nvim"
 
+# less displays tabs of length 4
+alias less="less -x4"
+
 # ask for confirmation for deleting more than three files
 alias rm="rm -I"
 
-# gcc warnings please
+# gcc and clang warnings please
 alias gcc="gcc -Wall -Wextra"
+alias clang="clang -Weverything"
 
 # for downloading videos from YouTube
 alias ydl="yt-dlp -f 'bestvideo[height<=1080]+bestaudio'"

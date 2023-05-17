@@ -13,11 +13,11 @@ set shiftwidth=2
 set noexpandtab
 
 " Display certain kinds of whitespace differently:
-" Tabs are displayed as __
+" Tabs are displayed as ·· (currently not included!)
 " Trailing spaces are displayed as S
 " Nonbreakable spaces are displayed as ~
 set list
-set listchars=tab:__,trail:S,nbsp:~
+set listchars=tab:··,trail:☡,nbsp:∞
 
 " Show relative line numbers, but absolute current line number.
 " Useful for moving to a specific line on screen.
@@ -36,6 +36,7 @@ set hidden
 " Line breaks are done only at whitespace (if possible).
 set wrap
 set linebreak
+set breakindent
 
 " Configuration of the completion menu.
 set completeopt=menu,menuone,noselect
@@ -53,28 +54,25 @@ set matchpairs+=⟨:⟩,⟦:⟧,⌈:⌉,⌊:⌋,“:”
 
 
 
-""""" FILETYPE DEPENDENT SETTINGS
-
-" Scheme code doesn’t fall into the usual concept of indentation and alignment.
-" Therefore, 2 spaces are used instead of tabs for indentation.
-" Also remove 'if' from the default list of lispwords to get the correct
-" alignment behaviour for scheme.
-autocmd Filetype scheme setlocal expandtab tabstop=2 shiftwidth=2 lispwords-=if
-
-
-
-
-
 """"" KEY BINDINGS
 
-" Escape with Shift + Enter.
-" TODO: Find something better.
-noremap <S-CR> <Esc>
-noremap! <S-CR> <Esc>
+" Control + c works like Escape, but it sometimes slightly different.
+" We make sure that they always behave the same.
+cnoremap <C-c> <Esc>
+inoremap <C-c> <Esc>
+nnoremap <C-c> <Esc>
+onoremap <C-c> <Esc>
+snoremap <C-c> <Esc>
+vnoremap <C-c> <Esc>
+xnoremap <C-c> <Esc>
+noremap! <C-c> <Esc>
 
 " Make comma the lead, and semicolon the local leader.
 let mapleader = ","
 let maplocalleader = ";"
+
+" Stop accidental opening of the command history
+nnoremap q: <Nop>
 
 " Deleting doesn’t overwritte the buffer.
 nnoremap d "_d
@@ -101,27 +99,34 @@ noremap <A-t> gT
 " Switching search highlight on/off via 'hl'.
 nnoremap h <Nop>
 nnoremap <silent><expr> hl (&hls && v:hlsearch ? ':nohls' : ':set hls')."\n"
+nnoremap <silent> <C-l> :nohlsearch<CR>
 
 " LANGUAGE SERVER COMMANDS
 nnoremap l <Nop>
-" Shows error information an a floating window.
-nnoremap le <cmd>lua vim.diagnostic.open_float()<CR>
-" Go through the found problems.
-nnoremap lN <cmd>lua vim.diagnostic.goto_prev()<CR>
-nnoremap ln <cmd>lua vim.diagnostic.goto_next()<CR>
-" Choose between suggested changes/actions.
-nnoremap la <cmd>lua vim.lsp.buf.code_action()<CR>
-" Rename a variable.
-nnoremap lm <cmd>lua vim.lsp.buf.rename()<CR>
-" Other stuff.
-nnoremap lD <cmd>lua vim.lsp.buf.declaration()<CR>
-nnoremap ld <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap lf <cmd>lua vim.lsp.buf.formatting()<CR>
-nnoremap lh <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap li <cmd>lua vim.lsp.buf.implementation()<CR>
-nnoremap lr <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap ls <cmd>lua vim.lsp.buf.signature_help()<CR>
-nnoremap lt <cmd>lua vim.lsp.buf.type_definition()<CR>
+" The followingcommands are now configured in the Lua part of this file, down
+" below. For the time being, the lines here remain in case that the new Lua
+" version doesn’t work.
+"
+" " Shows error information an a floating window.
+" nnoremap le <cmd>lua vim.diagnostic.open_float()<CR>
+" " Go through the found problems.
+" nnoremap lN <cmd>lua vim.diagnostic.goto_prev()<CR>
+" nnoremap ln <cmd>lua vim.diagnostic.goto_next()<CR>
+" " Choose between suggested changes/actions.
+" nnoremap la <cmd>lua vim.lsp.buf.code_action()<CR>
+" vnoremap la <cmd>lua vim.lsp.buf.code_action()<CR>
+" " Rename a variable.
+" nnoremap lm <cmd>lua vim.lsp.buf.rename()<CR>
+" " General information/help.
+" nnoremap lh <cmd>lua vim.lsp.buf.hover()<CR>
+" " Other stuff.
+" nnoremap lD <cmd>lua vim.lsp.buf.declaration()<CR>
+" nnoremap ld <cmd>lua vim.lsp.buf.definition()<CR>
+" nnoremap lf <cmd>lua vim.lsp.buf.formatting()<CR>
+" nnoremap li <cmd>lua vim.lsp.buf.implementation()<CR>
+" nnoremap lr <cmd>lua vim.lsp.buf.references()<CR>
+" nnoremap ls <cmd>lua vim.lsp.buf.signature_help()<CR>
+" nnoremap lt <cmd>lua vim.lsp.buf.type_definition()<CR>
 
 
 
@@ -189,7 +194,7 @@ Plug 'Olical/conjure'
 
 " Previewing Markdown files in a browser.
 " Installs a pre-built version so that nodejs and yarn are not needed.
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug'] }
 
 " Useful for drawing simple digrams in text.
 Plug 'jbyuki/venn.nvim'
@@ -240,6 +245,7 @@ vim.keymap.set('n', '<leader>le', builtin.diagnostics, {})
 vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+vim.keymap.set('n', '<leader>fr', builtin.registers, {})
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 ----- Vim’s internal lists.
 vim.keymap.set('n', '<leader>of', builtin.oldfiles, {})
@@ -260,6 +266,9 @@ vim.api.nvim_set_keymap(
   { noremap = true }
 )
 
+-- Others:
+-- <C-space> further refine search results (Default)
+-- <C-t>     open result in new tab (Configured above)
 
 
 
@@ -267,6 +276,16 @@ vim.api.nvim_set_keymap(
 -----[[ LANGUAGE SERVERS (sorted alphabetically) --]]
 
 local lsconfig = require('lspconfig')
+
+
+----- BASH
+
+lsconfig.bsl_ls.setup{}
+
+----- C
+
+-- lsconfig.ccls.setup{}
+lsconfig.clangd.setup{}
 
 ----- HTML
 
@@ -290,6 +309,8 @@ drulesfile['en-GB'] = 'disabled-rules-en.txt'
 local fposfile = {}
 fposfile['en-GB'] = 'en-false-positives.json'
 
+local envfile = 'environments.json'
+
 local cmdfile = 'commands.json'
 
 lsconfig.ltex.setup{
@@ -297,6 +318,7 @@ lsconfig.ltex.setup{
 		ltex = {
 			latex = {
 				commands = vim.json.decode( table.concat( readfile( vim.env.HOME .. '/.ltex/' .. cmdfile ), '\n' ) ),
+				environments = vim.json.decode( table.concat( readfile( vim.env.HOME .. '/.ltex/' .. envfile ), '\n' ) ),
 			},
 			additionalRules = {
 				enablePickyRules = true,
@@ -315,6 +337,10 @@ lsconfig.ltex.setup{
 		}
 	}
 }
+
+----- Lua
+
+lsconfig.lua_ls.setup{}
 
 ----- Markdown
 
@@ -356,8 +382,44 @@ lsconfig.texlab.setup{
 
 ----- Typescript
 
-lsconfig.tsserver.setup{}
+-- lsconfig.tsserver.setup{}
 
+lsconfig.denols.setup{}
+vim.g.markdown_fenced_languages = {
+  "ts=typescript"
+}
+
+----- VimScript
+
+lsconfig.vimls.setup{}
+
+----- keybindings
+-- Copied from https://github.com/neovim/nvim-lspconfig/blob/427378a03ffc1e1bc023275583a49b1993e524d0/README.md with adjusted links
+
+-- Global mappings
+vim.keymap.set('n', 'le', vim.diagnostic.open_float)
+vim.keymap.set('n', 'lN', vim.diagnostic.goto_prev)
+vim.keymap.set('n', 'ln', vim.diagnostic.goto_next)
+vim.keymap.set('n', 'lq', vim.diagnostic.setloclist)
+-- Local commands
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+  callback = function(ev)
+    local opts = { buffer = ev.buf }
+    vim.keymap.set('n', 'lD', vim.lsp.buf.declaration, opts)
+    vim.keymap.set('n', 'ld', vim.lsp.buf.definition, opts)
+    vim.keymap.set('n', 'lh', vim.lsp.buf.hover, opts)
+    vim.keymap.set('n', 'li', vim.lsp.buf.implementation, opts)
+    vim.keymap.set('n', 'ls', vim.lsp.buf.signature_help, opts)
+    vim.keymap.set('n', 'lt', vim.lsp.buf.type_definition, opts)
+    vim.keymap.set('n', 'lm', vim.lsp.buf.rename, opts)
+    vim.keymap.set({ 'n', 'v' }, 'la', vim.lsp.buf.code_action, opts)
+    vim.keymap.set('n', 'lr', vim.lsp.buf.references, opts)
+    vim.keymap.set('n', 'lf', function()
+      vim.lsp.buf.format { async = true }
+    end, opts)
+  end,
+})
 
 
 
@@ -531,9 +593,7 @@ lsconfig['texlab'].setup {
 	capabilities = capabilities
 }
 
-lsconfig['tsserver'].setup {
-	capabilities = capabilities
-}
+
 
 EOF
 
@@ -628,6 +688,8 @@ let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
 
 
 
+
+
 """"" MARKDOWN PREVIEW CONFIG
 
 " Taken from: https://github.com/iamcco/markdown-preview.nvim/blob/02cc3874738bc0f86e4b91f09b8a0ac88aef8e96/README.md
@@ -665,4 +727,4 @@ let g:mkdp_markdown_css = expand('~/.config/nvim/others/markdown-preview/markdow
 """""  COLOURSCHEME SETTINGS
 
 " colorscheme kanagawa
-colorscheme nightfox
+colorscheme carbonfox
