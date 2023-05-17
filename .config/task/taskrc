@@ -15,19 +15,19 @@
 # Use the command 'task show' to see all defaults and overrides
 
 # Files
-data.location=~/.task
+# data.location=~/.task
 
 # To use the default location of the XDG directories,
 # move this configuration file from ~/.taskrc to ~/.config/task/taskrc and uncomment below
 
-#data.location=~/.local/share/task
-#hooks.location=~/.config/task/hooks
+data.location=~/.local/share/task
+hooks.location=~/.config/task/hooks
 
 # Color theme (uncomment one to use)
 #include light-16.theme
 #include light-256.theme
 #include dark-16.theme
-include dark-256.theme
+#include dark-256.theme
 #include dark-red-256.theme
 #include dark-green-256.theme
 #include dark-blue-256.theme
@@ -37,7 +37,7 @@ include dark-256.theme
 #include dark-gray-blue-256.theme
 #include solarized-dark-256.theme
 #include solarized-light-256.theme
-#include no-color.theme
+include no-color.theme
 
 news.version=2.6.0
 report.next.columns=id,description,project.parent,scheduled.countdown,due.relative,until.remaining

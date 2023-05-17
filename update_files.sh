@@ -3,18 +3,18 @@
 files=(
 	.chktexrc
 	.config/fontconfig/conf.d/inactive-monospace-nolig.conf
-	.config/kitty/kitty.conf
+	.config/git/
+	.config/kitty/
+	.config/latexmk/
+	.config/ltex/
+	.config/mpv/
 	.config/nvim/after/
 	.config/nvim/my_snippets/
 	.config/nvim/others/
 	.config/nvim/init.vim
-	.gitconfig
-	.latexmkrc
+	.config/ocaml/
+	.config/task/
 	.lispwords.lua
-	.ltex/
-	.mpv/
-	.ocamlinit
-	.taskrc
 	.XCompose
 	.zshrc
 )

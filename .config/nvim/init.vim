@@ -313,25 +313,28 @@ local envfile = 'environments.json'
 
 local cmdfile = 'commands.json'
 
+-- I would like to use XDG_CONFIG_HOME instead of HOME + '/.config',
+-- but I don’t know how to get the value of XDG_CONFIG_HOME
+-- (or its default value, if it isn’t set).
 lsconfig.ltex.setup{
 	settings = {
 		ltex = {
 			latex = {
-				commands = vim.json.decode( table.concat( readfile( vim.env.HOME .. '/.ltex/' .. cmdfile ), '\n' ) ),
-				environments = vim.json.decode( table.concat( readfile( vim.env.HOME .. '/.ltex/' .. envfile ), '\n' ) ),
+				commands = vim.json.decode( table.concat( readfile( vim.env.HOME .. '/.config/ltex/' .. cmdfile ), '\n' ) ),
+				environments = vim.json.decode( table.concat( readfile( vim.env.HOME .. '/.config/ltex/' .. envfile ), '\n' ) ),
 			},
 			additionalRules = {
 				enablePickyRules = true,
 			},
 			checkFrequency = 'save',
 			dictionary = {
-				['en-GB'] = readfile( vim.env.HOME .. '/.ltex/' .. wordfile['en-GB'] ),
+				['en-GB'] = readfile( vim.env.HOME .. '/.config/ltex/' .. wordfile['en-GB'] ),
 			},
 			disabledRules = {
-				['en-GB'] = readfile( vim.env.HOME .. '/.ltex/' .. drulesfile['en-GB'] ),
+				['en-GB'] = readfile( vim.env.HOME .. '/.config/ltex/' .. drulesfile['en-GB'] ),
 			},
 			hiddenFalsePositives = {
-				['en-GB'] = vim.json.decode( table.concat( readfile( vim.env.HOME .. '/.ltex/' .. fposfile['en-GB'] ), '\n' ) )
+				['en-GB'] = vim.json.decode( table.concat( readfile( vim.env.HOME .. '/.config/ltex/' .. fposfile['en-GB'] ), '\n' ) )
 			},
 			language = 'en-GB',
 		}
