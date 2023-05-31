@@ -152,7 +152,7 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 " Smart tabs: tabs for indentation and spaces for alignment.
 " Doesn’t work as well as I’d like, but better than nothing.
-Plug 'dpc/vim-smarttabs'
+Plug 'Thyrum/vim-stabs'
 
 " Telescope for finding stuff.
 " Still requires actual “finders” to do (most of) the actual finding:
@@ -191,6 +191,9 @@ Plug 'lervag/vimtex'
 
 " To run Scheme/Lisp/… from the editor.
 Plug 'Olical/conjure'
+
+" Debugging from within neovim
+Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh' }
 
 " Previewing Markdown files in a browser.
 " Installs a pre-built version so that nodejs and yarn are not needed.
@@ -252,19 +255,16 @@ vim.keymap.set('n', '<leader>of', builtin.oldfiles, {})
 vim.keymap.set('n', '<leader>cm', builtin.commands, {})
 vim.keymap.set('n', '<leader>km', builtin.keymaps, {})
 ----- Git.
-vim.keymap.set('n', '<leader>gc', builtin.git_commits, {})
+vim.keymap.set('n', '<leader>gh', builtin.git_commits, {})
 vim.keymap.set('n', '<leader>gb', builtin.git_branches, {})
 vim.keymap.set('n', '<leader>gs', builtin.git_status, {})
 ----- Search history.
 vim.keymap.set('n', '<leader>h',  builtin.search_history, {})
-
 ----- File browser.
-vim.api.nvim_set_keymap(
-  'n',
-  '<leader>t',
-  ':Telescope file_browser<CR>',
-  { noremap = true }
-)
+vim.api.nvim_set_keymap('n', '<leader>t', ':Telescope file_browser<CR>', { noremap = true })
+----- Repeat the last search
+vim.api.nvim_set_keymap('n', '<leader>f<space>', ':Telescope resume<CR>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<leader>r', ':Telescope resume<CR>', { noremap = true })
 
 -- Others:
 -- <C-space> further refine search results (Default)
@@ -439,10 +439,10 @@ require('fidget').setup{}
 
 require('nvim-treesitter.configs').setup {
 	-- One of "all", "maintained" (parsers with maintainers), or a list of languages
-	ensure_installed = {"latex"},
+	ensure_installed = {"bash", "bibtex", "c", "css", "git_config", "git_rebase", "gitcommit", "gitignore", "html", "javascript", "json", "julia", "latex", "lua", "markdown", "markdown_inline", "ocaml", "ocaml_interface", "python", "query", "rust", "scheme", "scss", "toml", "typescript", "vim", "vimdoc", "yaml"},
 
 	-- Install languages synchronously (only applied to `ensure_installed`)
-	sync_install = false,
+	sync_install = true,
 
 	-- List of parsers to ignore installing
 	ignore_install = { },
@@ -459,6 +459,11 @@ require('nvim-treesitter.configs').setup {
 		-- Using this option may slow down your editor, and you may see some duplicate highlights.
 		-- Instead of true it can also be a list of languages
 		additional_vim_regex_highlighting = false,
+	},
+
+	indent = {
+		enable = true,
+		disable = {"c"},
 	},
 }
 
@@ -533,7 +538,7 @@ cmp.setup({
 			c = cmp.mapping.close(),
 		}),
 		['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-		["<C-n>"] = cmp.mapping.select_next_item({behavior=cmp.SelectBehavior.Insert}),
+		["<Tab>"] = cmp.mapping.select_next_item({behavior=cmp.SelectBehavior.Insert}),
 		["<C-p>"] = cmp.mapping.select_prev_item({behavior=cmp.SelectBehavior.Insert}),
 		["<Up>"] = cmp.mapping({
 			i =
@@ -730,4 +735,5 @@ let g:mkdp_markdown_css = expand('~/.config/nvim/others/markdown-preview/markdow
 """""  COLOURSCHEME SETTINGS
 
 " colorscheme kanagawa
-colorscheme carbonfox
+" colorscheme carbonfox
+colorscheme retrobox

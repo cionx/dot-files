@@ -1,6 +1,7 @@
 Baer
 Burali-Forti
 Cauchy
+Deno
 Dmitrievich
 DrRacket
 Freyd
@@ -14,6 +15,7 @@ Kenkichi
 Krull
 Kuratowski
 Lebesgue
+LeetCode
 OUnit
 Peano
 Riehl

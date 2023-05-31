@@ -70,7 +70,7 @@ ZSH_THEME="gianu"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(rust)
+plugins=(rust taskwarrior z)
 
 
 # User configuration
@@ -130,7 +130,7 @@ alias rm="rm -I"
 
 # gcc and clang warnings please
 alias gcc="gcc -Wall -Wextra"
-alias clang="clang -Weverything"
+alias clang="clang -Weverything -Wno-declaration-after-statement -Wno-padded"
 
 # for downloading videos from YouTube
 alias ydl="yt-dlp -f 'bestvideo[height<=1080]+bestaudio'"
@@ -147,3 +147,6 @@ function replaceall() { grep -Irl $1 . | xargs -d '\n' sed -i "s/$1/$2/g" }
 
 # opam configuration
 [[ ! -r /home/cionx/.opam/opam-init/init.zsh ]] || source /home/cionx/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
+
+# for z
+. /usr/share/z/z.sh
