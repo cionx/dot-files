@@ -2,6 +2,7 @@
 
 files=(
 	.chktexrc
+	.clang-format
 	.config/fontconfig/conf.d/inactive-monospace-nolig.conf
 	.config/git/
 	.config/kitty/

@@ -1,0 +1,28 @@
+Language: Cpp # this includes C
+
+UseTab: AlignWithSpaces
+# Internally, clang-format uses spaces.
+# We therefore specify the following two entries:
+IndentWidth: 4
+TabWidth: 4
+
+IndentCaseLabels: true
+
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterCaseLabel: false
+  AfterControlStatement: Never
+  AfterFunction: true
+  AfterStruct: false
+  BeforeCatch: true
+  BeforeElse: true
+  BeforeWhile: true
+
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
+AllowShortIfStatementsOnASingleLine: Never
+
+SpaceAfterCStyleCast: true
+SpaceAfterLogicalNot: false
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeParens: ControlStatements
