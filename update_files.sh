@@ -14,6 +14,7 @@ files=(
 	.config/nvim/others/
 	.config/nvim/init.vim
 	.config/ocaml/
+	.config/pacman/
 	.config/task/
 	.lispwords.lua
 	.XCompose
