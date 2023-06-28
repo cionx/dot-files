@@ -4,6 +4,7 @@ files=(
 	.chktexrc
 	.clang-format
 	.config/fontconfig/conf.d/inactive-monospace-nolig.conf
+	.config/gdb/
 	.config/git/
 	.config/kitty/
 	.config/latexmk/
