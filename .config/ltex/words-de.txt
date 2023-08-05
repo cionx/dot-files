@@ -2,7 +2,9 @@ Automorphismengruppen
 Baer
 Burali-Forti
 Cauchy
+Deno
 Dmitrievich
+DrRacket
 Freyd
 Gerstenhaber
 Hasse
@@ -15,11 +17,13 @@ Kenkichi
 Krull
 Kuratowski
 Lebesgue
+LeetCode
 Monoiden
 nichtexpansiv
 OUnit
 Peano
 Quotientenkategorie
+Riehl
 Rotman
 Sierpiński
 SimPL
@@ -28,6 +32,7 @@ Stelzner
 Stroppel
 Supremumsnorm
 Sweedler
+Sympy
 Tarski
 Tychonoff
 utop

@@ -1,8 +1,8 @@
 Language: Cpp # this includes C
 
 UseTab: AlignWithSpaces
-# Internally, clang-format uses spaces.
-# We therefore specify the following two entries:
+# Internally, clang-format uses spaces, but I use tabs. We therefore specify
+# the following two entries:
 IndentWidth: 4
 TabWidth: 4
 
@@ -16,7 +16,7 @@ BraceWrapping:
   AfterStruct: false
   BeforeCatch: true
   BeforeElse: true
-  BeforeWhile: true
+  BeforeWhile: false
 
 AllowShortCaseLabelsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: None
@@ -26,3 +26,14 @@ SpaceAfterCStyleCast: true
 SpaceAfterLogicalNot: false
 SpaceBeforeAssignmentOperators: true
 SpaceBeforeParens: ControlStatements
+
+AlignConsecutiveMacros:
+  Enabled: true
+
+AlignTrailingComments:
+  Kind: Always
+  OverEmptyLines: 2
+
+# I would like to enfore an empty line after a block of includes, but I don’t
+# know how to get this.
+SeparateDefinitionBlocks: Always

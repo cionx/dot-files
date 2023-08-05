@@ -55,9 +55,11 @@ counit
 counital
 counits
 covariantly
+Deno
 desugar
 desugared
 Dmitrievich
+DrRacket
 endofunctor
 equivariant
 filterbase
@@ -89,6 +91,7 @@ Kenkichi
 Krull
 Kuratowski
 Lebesgue
+LeetCode
 lexing
 meet-semilattice
 meet-semilattices
@@ -123,6 +126,7 @@ pushforwards
 pushout
 pushouts
 representables
+Riehl
 Rotman
 semidirect
 semilattice
@@ -147,6 +151,8 @@ subobject
 subobjects
 subprevarieties
 subprevariety
+subproblem
+subproblems
 subrepresentation
 subring
 subrings
@@ -154,13 +160,16 @@ suprema
 supremum
 surjectivity
 Sweedler
+Sympy
 Tarski
 toplevel
 topos
+traveling-salesperson
 Tychonoff
 ultrafilter
 ultrafilters
 utop
+whiskering
 Yoneda
 Zariski
 Zarith

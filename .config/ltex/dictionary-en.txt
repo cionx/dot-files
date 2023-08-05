@@ -126,6 +126,8 @@ subobject
 subobjects
 subprevarieties
 subprevariety
+subproblem
+subproblems
 subrepresentation
 subring
 subrings
@@ -134,5 +136,7 @@ supremum
 surjectivity
 toplevel
 topos
+traveling-salesperson
 ultrafilter
 ultrafilters
+whiskering

@@ -13,11 +13,15 @@ set shiftwidth=2
 set noexpandtab
 
 " Display certain kinds of whitespace differently:
-" Tabs are displayed as ·· (currently not included!)
+" Tabs are displayed as ··
 " Trailing spaces are displayed as S
 " Nonbreakable spaces are displayed as ~
 set list
-set listchars=tab:··,trail:☡,nbsp:∞
+set listchars=tab:··,trail:S,nbsp:~
+
+" Hightlight (while typing) a search
+set hlsearch
+set incsearch
 
 " Show relative line numbers, but absolute current line number.
 " Useful for moving to a specific line on screen.
@@ -145,7 +149,7 @@ Plug 'neovim/nvim-lspconfig'
 
 " Little progress indicator for language servers running in the background.
 " Displayed in the bottom right.
-Plug 'j-hui/fidget.nvim'
+Plug 'j-hui/fidget.nvim', { 'tag': 'legacy' }
 
 " Neovim’s treesitter configurations.
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -538,7 +542,7 @@ cmp.setup({
 			c = cmp.mapping.close(),
 		}),
 		['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-		["<Tab>"] = cmp.mapping.select_next_item({behavior=cmp.SelectBehavior.Insert}),
+		["<C-n>"] = cmp.mapping.select_next_item({behavior=cmp.SelectBehavior.Insert}),
 		["<C-p>"] = cmp.mapping.select_prev_item({behavior=cmp.SelectBehavior.Insert}),
 		["<Up>"] = cmp.mapping({
 			i =
@@ -571,6 +575,9 @@ cmp.setup({
 		{ name = 'omni' },
 		{ name = 'buffer',
 			option = {
+				get_bufnrs = function()
+					return vim.api.nvim_list_bufs() -- Get words from all open buffers.
+				end,
 				keyword_pattern = [[\k\+]]
 			}
 		},
