@@ -100,14 +100,22 @@ noremap g<Left> gT
 noremap <A-n> gt
 noremap <A-t> gT
 
+" Opening the file under the cursor in a new tab. If this file does not yet
+" exist, create it.
+nnoremap to :tabedit <cfile> <CR>
+
+" Closing buffer with alt + d
+noremap <A-d> :bdelete<CR>
+
 " Switching search highlight on/off via 'hl'.
-nnoremap h <Nop>
+nnoremap <silent>h <Nop>
 nnoremap <silent><expr> hl (&hls && v:hlsearch ? ':nohls' : ':set hls')."\n"
 nnoremap <silent> <C-l> :nohlsearch<CR>
 
 " LANGUAGE SERVER COMMANDS
 nnoremap l <Nop>
-" The followingcommands are now configured in the Lua part of this file, down
+
+" The following commands are now configured in the Lua part of this file, down
 " below. For the time being, the lines here remain in case that the new Lua
 " version doesn’t work.
 "
@@ -206,9 +214,16 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': 
 " Useful for drawing simple digrams in text.
 Plug 'jbyuki/venn.nvim'
 
+" Wildfire
+Plug 'gcmt/wildfire.vim'
+
 " Colour themes.
-Plug 'rebelot/kanagawa.nvim'
+Plug 'AlexvZyl/nordic.nvim'
 Plug 'EdenEast/nightfox.nvim'
+Plug 'Mofiqul/dracula.nvim'
+Plug 'rebelot/kanagawa.nvim'
+Plug 'zootedb0t/citruszest.nvim'
+
 
 call plug#end()
 
@@ -269,6 +284,8 @@ vim.api.nvim_set_keymap('n', '<leader>t', ':Telescope file_browser<CR>', { norem
 ----- Repeat the last search
 vim.api.nvim_set_keymap('n', '<leader>f<space>', ':Telescope resume<CR>', { noremap = true })
 vim.api.nvim_set_keymap('n', '<leader>r', ':Telescope resume<CR>', { noremap = true })
+----- The general telescope menu
+vim.api.nvim_set_keymap('n', '<space>', ':Telescope<CR>', { noremap = true })
 
 -- Others:
 -- <C-space> further refine search results (Default)
@@ -438,7 +455,6 @@ require('fidget').setup{}
 
 
 
-
 -----[[ TREE-SITTER --]]
 
 require('nvim-treesitter.configs').setup {
@@ -467,7 +483,7 @@ require('nvim-treesitter.configs').setup {
 
 	indent = {
 		enable = true,
-		disable = {"c"},
+		disable = {"c", "lua"},
 	},
 }
 
@@ -610,6 +626,7 @@ lsconfig['texlab'].setup {
 
 
 
+
 EOF
 
 
@@ -646,12 +663,8 @@ let g:UltiSnipsSnippetDirectories = ['UltiSnips', 'my_snippets']
 
 let g:tex_flavor = 'latex'
 
-" Disable automatic compilation for every little change.
-let g:vimtex_compiler_latexmk = {'continuous' : 0}
-" Alt+2 for compilation; uses 'latexmk' per default
-nmap <M-2> :wall<Return>:VimtexCompile<Return>
-" Alt+3 for opening the PDF viewer at the current position
-nmap <M-3> :VimtexView<Return>
+" Disable highlighting of Unicode mathematics as TeX commands, see https://github.com/lervag/vimtex/issues/2732#issuecomment-1677584255
+let g:vimtex_syntax_match_unicode = v:false
 
 " When inside some delimiters (e.g., parentheses) use tsd (toggle surrounding
 " delimiters) to toggle through these (+ no delimiters).
@@ -688,6 +701,14 @@ let g:vimtex_delim_list = {
     \   ]
     \ },
     \}
+
+
+" Disable automatic compilation for every little change.
+let g:vimtex_compiler_latexmk = {'continuous' : 0}
+" Alt+2 for compilation; uses 'latexmk' per default
+nmap <M-2> :wall<Return>:VimtexCompile<Return>
+" Alt+3 for opening the PDF viewer at the current position
+nmap <M-3> :VimtexView<Return>
 
 " Forward and backward search with okular, as explained in
 " :help vimtex-view-okular
@@ -741,6 +762,4 @@ let g:mkdp_markdown_css = expand('~/.config/nvim/others/markdown-preview/markdow
 
 """""  COLOURSCHEME SETTINGS
 
-" colorscheme kanagawa
-" colorscheme carbonfox
 colorscheme retrobox

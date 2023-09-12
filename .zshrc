@@ -130,7 +130,7 @@ alias rm="rm -I"
 
 # gcc and clang warnings please
 alias gcc="gcc -Wall -Wextra"
-alias clang="clang -Weverything -Wno-declaration-after-statement -Wno-padded -Wno-unsafe-buffer-usage -Wno-comma"
+alias clang="clang -Weverything -Wpedantic -Werror -Wconversion -Wno-declaration-after-statement -Wno-padded -Wno-unsafe-buffer-usage -Wno-comma"
 
 # for downloading videos from YouTube
 alias ydl="yt-dlp -f 'bestvideo[height<=1080]+bestaudio'"

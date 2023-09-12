@@ -5,6 +5,7 @@ antitone
 Baer
 basepoint
 basepoints
+bifunctor
 bijectivity
 bilinearity
 bimodule
@@ -18,6 +19,7 @@ Cauchy
 center
 centered
 centers
+clopen
 coalgebra
 coalgebras
 coassociative
@@ -31,6 +33,8 @@ cocones
 cocontinuity
 cocontinuous
 cocountable
+codepoint
+codepoints
 codiagonal
 codiscrete
 coequalizer
@@ -60,8 +64,10 @@ desugar
 desugared
 Dmitrievich
 DrRacket
+Eckmann
 endofunctor
 equivariant
+fibration
 filterbase
 filterbases
 Freyd
@@ -70,6 +76,7 @@ functorial
 functorialities
 functoriality
 functorially
+generatrix
 Gerstenhaber
 groupoid
 groupoids
@@ -105,6 +112,7 @@ nonempty
 nonzero
 Nullstellensatz
 OUnit
+paracompact
 PBW-theorem
 Peano
 poset
@@ -125,6 +133,7 @@ pushforward
 pushforwards
 pushout
 pushouts
+representability
 representables
 Riehl
 Rotman
@@ -138,6 +147,7 @@ Sophus
 Stelzner
 Stroppel
 subalgebras
+subbasis
 subcoalgebra
 subcover
 subcovers
@@ -168,6 +178,7 @@ traveling-salesperson
 Tychonoff
 ultrafilter
 ultrafilters
+unraveling
 utop
 whiskering
 Yoneda

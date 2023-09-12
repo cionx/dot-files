@@ -4,6 +4,7 @@ Cauchy
 Deno
 Dmitrievich
 DrRacket
+Eckmann
 Freyd
 Gerstenhaber
 Hasse
