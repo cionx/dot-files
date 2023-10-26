@@ -43,6 +43,7 @@ coinvariants
 cokernel
 cokernels
 comonoid
+compactification
 componentwise
 comultiplication
 comultiplicative
@@ -58,6 +59,7 @@ counits
 covariantly
 desugar
 desugared
+detab
 endofunctor
 equivariant
 fibration
@@ -94,6 +96,7 @@ nonzero
 Nullstellensatz
 PBW-theorem
 paracompact
+parenthesization
 poset
 posets
 preadditive
@@ -143,6 +146,8 @@ subrings
 suprema
 supremum
 surjectivity
+tabwidth
+tetration
 toplevel
 topos
 traveling-salesperson

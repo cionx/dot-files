@@ -46,6 +46,7 @@ coinvariants
 cokernel
 cokernels
 comonoid
+compactification
 componentwise
 comultiplication
 comultiplicative
@@ -62,6 +63,7 @@ covariantly
 Deno
 desugar
 desugared
+detab
 Dmitrievich
 DrRacket
 Eckmann
@@ -113,6 +115,7 @@ nonzero
 Nullstellensatz
 OUnit
 paracompact
+parenthesization
 PBW-theorem
 Peano
 poset
@@ -171,7 +174,9 @@ supremum
 surjectivity
 Sweedler
 Sympy
+tabwidth
 Tarski
+tetration
 toplevel
 topos
 traveling-salesperson

@@ -1,7 +1,7 @@
 " Indent with 2 spaces in markdown files.
 setlocal expandtab
-setlocal tabstop=4
-setlocal softtabstop=4
+setlocal tabstop=2
+setlocal softtabstop=2
 setlocal shiftwidth=2
 
 " Softwrapped lines should be properly indented in lists…

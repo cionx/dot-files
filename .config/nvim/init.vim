@@ -6,10 +6,10 @@ set nocompatible
 " Search down into subdirectories.
 set path+=**
 
-" Indentation with tabs, which are displayed with length 2.
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
+" Indentation with tabs, which are displayed with length 4.
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
 set noexpandtab
 
 " Display certain kinds of whitespace differently:
@@ -223,6 +223,7 @@ Plug 'EdenEast/nightfox.nvim'
 Plug 'Mofiqul/dracula.nvim'
 Plug 'rebelot/kanagawa.nvim'
 Plug 'zootedb0t/citruszest.nvim'
+Plug 'ribru17/bamboo.nvim'
 
 
 call plug#end()
