@@ -14,7 +14,7 @@ files=(
 	.config/nvim/my_snippets/
 	.config/nvim/others/
 	.config/nvim/init.vim
-	.config/ocaml/
+	.config/utop/
 	.config/pacman/
 	.config/task/
 	.lispwords.lua
