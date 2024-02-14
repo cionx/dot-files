@@ -157,7 +157,7 @@ Plug 'neovim/nvim-lspconfig'
 
 " Little progress indicator for language servers running in the background.
 " Displayed in the bottom right.
-Plug 'j-hui/fidget.nvim', { 'tag': 'legacy' }
+Plug 'j-hui/fidget.nvim'
 
 " Neovim’s treesitter configurations.
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}

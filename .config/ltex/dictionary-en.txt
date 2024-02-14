@@ -83,6 +83,7 @@ isotone
 join-semilattice
 join-semilattices
 lexing
+linearithmic
 meet-semilattice
 meet-semilattices
 monic
@@ -153,5 +154,6 @@ topos
 traveling-salesperson
 ultrafilter
 ultrafilters
+uncurried
 unraveling
 whiskering

@@ -32,7 +32,7 @@ AlignConsecutiveMacros:
 
 AlignTrailingComments:
   Kind: Always
-  OverEmptyLines: 2
+  OverEmptyLines: 0
 
 # I would like to enfore an empty line after a block of includes, but I don’t
 # know how to get this.
