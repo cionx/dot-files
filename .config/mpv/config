@@ -1,8 +1,17 @@
-#af=volume=replaygain-track
 use-filedir-conf
+
 screenshot-format=png
-screenshot-png-compression=0
+screenshot-png-compression=9
 screenshot-template="~/screenshots/%f (%p)"
+
 alang=jpn,jp,kor,eng,en
 slang=eng,en
+
 force-window
+
+hwdec=auto-safe
+vo=gpu-next
+profile=high-quality
+interpolation
+
+replaygain=album

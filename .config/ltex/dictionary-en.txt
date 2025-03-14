@@ -58,6 +58,7 @@ counital
 counits
 covariantly
 desugar
+desugars
 desugared
 detab
 endofunctor
@@ -74,6 +75,7 @@ generatrix
 groupoid
 groupoids
 homotopies
+inexhaustive
 infima
 infimum
 injectives
@@ -82,6 +84,7 @@ invertibility
 isotone
 join-semilattice
 join-semilattices
+lexer
 lexing
 linearithmic
 meet-semilattice

@@ -63,6 +63,7 @@ covariantly
 Deno
 desugar
 desugared
+desugars
 detab
 Dmitrievich
 DrRacket
@@ -85,6 +86,7 @@ groupoids
 Hasse
 Hausdorff
 homotopies
+inexhaustive
 infima
 infimum
 injectives
@@ -101,6 +103,7 @@ Krull
 Kuratowski
 Lebesgue
 LeetCode
+lexer
 lexing
 linearithmic
 meet-semilattice
