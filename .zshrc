@@ -122,6 +122,9 @@ export PATH=$PATH:/home/cionx/bin/:/home/cionx/.local/bin
 # use neovim as default editor
 export EDITOR="/usr/bin/nvim"
 
+# display startx until I’m used to startplasma-wayland
+alias startx=""
+
 # less displays tabs of length 4
 alias less="less -x4"
 

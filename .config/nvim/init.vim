@@ -318,7 +318,7 @@ lsconfig.html.setup {
 
 ----- LTeX
 
-require'lspconfig'.ltex.setup{}
+require'lspconfig'.ltex_plus.setup{}
 
 local readfile = vim.fn.readfile
 
@@ -338,7 +338,7 @@ local cmdfile = 'commands.json'
 -- I would like to use XDG_CONFIG_HOME instead of HOME + '/.config',
 -- but I don’t know how to get the value of XDG_CONFIG_HOME
 -- (or its default value, if it isn’t set).
-lsconfig.ltex.setup{
+lsconfig.ltex_plus.setup{
 	settings = {
 		ltex = {
 			latex = {

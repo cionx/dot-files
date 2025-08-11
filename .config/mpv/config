@@ -1,5 +1,7 @@
 use-filedir-conf
 
+demuxer-max-bytes=1GiB
+
 screenshot-format=png
 screenshot-png-compression=9
 screenshot-template="~/screenshots/%f (%p)"
