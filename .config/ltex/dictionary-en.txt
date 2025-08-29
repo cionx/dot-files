@@ -36,6 +36,7 @@ codiagonal
 codiscrete
 coequalizer
 coequalizers
+coideal
 cofinite
 coimage
 coimages
@@ -74,6 +75,7 @@ functorially
 generatrix
 groupoid
 groupoids
+hermitian
 homotopies
 inexhaustive
 infima
@@ -87,11 +89,13 @@ join-semilattices
 lexer
 lexing
 linearithmic
+math
 meet-semilattice
 meet-semilattices
 monic
 monics
 monoidal
+multiplicativity
 multipointed
 noetherian
 non-abelian
@@ -149,6 +153,7 @@ subring
 subrings
 suprema
 supremum
+surjective
 surjectivity
 tabwidth
 tetration

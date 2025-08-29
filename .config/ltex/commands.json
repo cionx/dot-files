@@ -5,6 +5,7 @@
 	"\\lcnamecref{}":  "dummy",
 	"\\setmainfont{}": "ignore",
 	"\\setmathfont{}": "ignore",
+	"\\setmathfont[]{}": "ignore",
 	"\\setmonofont{}": "ignore",
 	"\\setsansfont{}": "ignore",
 	"\\texorpdfstring{}{}": "dummy"
