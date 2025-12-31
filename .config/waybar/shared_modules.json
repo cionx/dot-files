@@ -1,0 +1,100 @@
+{
+	"position": "top",
+	"height": 30,
+	"modules-left": [
+		"hyprland/workspaces"
+	],
+	"modules-right": [
+		"custom/network",
+		"custom/separator",
+		"wireplumber",
+		"custom/separator",
+		"cpu",
+		"memory",
+		"custom/separator",
+		"custom/gpu",
+		"custom/gpu_memory",
+		"custom/separator",
+		"temperature",
+		"custom/separator",
+		"clock"
+	],
+	"hyprland/workspaces": {
+		"format": " {icon} ",
+		"format-icons": {
+		 "1": "〇",
+		 "2": "一",
+		 "3": "二",
+		 "4": "三",
+		 "5": "四",
+		 "6": "五",
+		 "7": "六",
+		 "8": "七",
+		 "9": "八",
+		"10": "九",
+		"11": "十"
+		},
+		"active-only": true,
+		"show-special": true,
+		"on-scroll-up" : "hyprctl dispatch workspace m-1",
+		"on-scroll-down" : "hyprctl dispatch workspace m+1"
+	},
+	"custom/separator": {
+		"format": " | "
+	},
+	"custom/network": {
+		"exec": "~/.config/waybar/network_stats.nu",
+		"return-type": "json",
+		"format": "{text}"
+		// Tooltip is formated in the script, because tooltip-format doesn’t
+		// seem to be able to access fields of the returned JSON.
+	},
+	"wireplumber": {
+		"format": "{volume}%",
+		"format-source": "{volume}%",
+		"scroll-step": 5,
+		"on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+		"on-click-right": "pavucontrol-qt",
+		"tooltip": false,
+		"max-volume": 200
+	},
+	"cpu": {
+		"format": "{usage}%",
+		"tooltip": true,
+		"interval": 1
+	},
+	"memory": {
+		"format": " · {percentage}% · {swapPercentage}%",
+		"tooltip": true,
+		"tooltip-format": "RAM:  {used:4.1f} GiB / {total:0.1f} GiB\nSwap:  {swapUsed:0.1f} GiB /  {swapTotal:0.1f} GiB",
+		"interval": 1
+	},
+	"custom/gpu": {
+		"exec": "~/.config/waybar/gpu_percentage.nu",
+		"return-type": "json",
+		"format": "{text}%",
+		"tooltip": false,
+		"interval": 1
+	},
+	"custom/gpu_memory": {
+		"exec": "~/.config/waybar/vram_percentage.nu",
+		"return-type": "json",
+		"format": " · {}",
+		// Tooltip is formated in the script, because tooltip-format doesn’t
+		// seem to be able to access fields of the returned JSON.
+		"on-click": "amdgpu_top --gui"
+	},
+	"temperature": {
+		// "thermal-zone": 2,
+		// "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+		"critical-threshold": 80,
+		// "format-critical": "{temperatureC}°C {icon}",
+		"format": "{temperatureC}°C"
+	},
+	"clock": {
+		"locale": "de_DE.utf8",
+		"format": "{:%H:%M}  ",
+		"tooltip": true,
+		"tooltip-format": "<tt>{:L%a, %d. %B}\n\n<small>{calendar}</small></tt>"
+	}
+}

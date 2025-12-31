@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/env bash
 
 files=(
 	.chktexrc
@@ -6,6 +6,7 @@ files=(
 	.config/fontconfig/conf.d/inactive-monospace-nolig.conf
 	.config/gdb/
 	.config/git/
+	.config/hypr/
 	.config/kitty/
 	.config/latexmk/
 	.config/ltex/
@@ -17,6 +18,7 @@ files=(
 	.config/utop/
 	.config/pacman/
 	.config/task/
+	.config/waybar/
 	.lispwords.lua
 	.XCompose
 	.zshrc

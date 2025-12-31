@@ -1,0 +1,38 @@
+// -*- mode: jsonc -*-
+
+
+
+/* CENTER MONITOR */
+
+[{
+	"output" : "DP-2",
+
+	"include": [
+		"/home/cionx/.config/waybar/shared_modules.json"
+	],
+
+	"modules-center": [
+		"hyprland/window"
+	],
+	// modules-right is in the shared modules
+
+	"hyprland/window" : {
+		"format": "{title}",
+		"max-length": 50,
+		"rewrite": {
+			"(.*) — [^—]*$": "$1" // Strip off application names.
+		}
+	}
+},
+
+
+
+/* RIGHT MONITOR */
+
+{
+	"output" : "DP-3",
+
+	"include": [
+		"/home/cionx/.config/waybar/shared_modules.json"
+	]
+}]
