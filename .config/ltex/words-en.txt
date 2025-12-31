@@ -71,6 +71,7 @@ Dmitrievich
 DrRacket
 Eckmann
 endofunctor
+epimorphisms
 equivariant
 fibration
 filterbase
@@ -120,6 +121,7 @@ Monaspace
 monic
 monics
 monoidal
+monomorphism
 multiplicativity
 multipointed
 noetherian
@@ -157,6 +159,7 @@ Rotman
 semidirect
 semilattice
 semilattices
+Serre
 sheafification
 Sierpiński
 SimPL

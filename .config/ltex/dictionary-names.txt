@@ -27,6 +27,7 @@ OUnit
 Peano
 Riehl
 Rotman
+Serre
 Sierpiński
 SimPL
 Sophus

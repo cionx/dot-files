@@ -2,5 +2,6 @@ Automorphismengruppen
 Isomorphismuses
 Monoiden
 nichtexpansiv
+quartärlich
 Quotientenkategorie
 Supremumsnorm

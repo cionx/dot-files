@@ -63,6 +63,7 @@ desugars
 desugared
 detab
 endofunctor
+epimorphisms
 equivariant
 fibration
 filterbase
@@ -95,6 +96,7 @@ meet-semilattices
 monic
 monics
 monoidal
+monomorphism
 multiplicativity
 multipointed
 noetherian

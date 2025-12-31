@@ -29,9 +29,11 @@ Monoiden
 nichtexpansiv
 OUnit
 Peano
+quartärlich
 Quotientenkategorie
 Riehl
 Rotman
+Serre
 Sierpiński
 SimPL
 Sophus

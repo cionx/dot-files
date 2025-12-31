@@ -26,6 +26,8 @@ set incsearch
 " Show relative line numbers, but absolute current line number.
 " Useful for moving to a specific line on screen.
 set number relativenumber
+" Also highlight the current line.
+set cursorline
 
 " Show at least 15 lines beneath/above the cursor, if possible.
 set scrolloff=15
@@ -72,8 +74,10 @@ xnoremap <C-c> <Esc>
 noremap! <C-c> <Esc>
 
 " Make comma the lead, and semicolon the local leader.
-let mapleader = ","
-let maplocalleader = ";"
+let mapleader = ";"
+
+" Stop accidently recording.
+nnoremap q <Nop>
 
 " Stop accidental opening of the command history
 nnoremap q: <Nop>
@@ -100,6 +104,10 @@ noremap g<Left> gT
 noremap <A-n> gt
 noremap <A-t> gT
 
+" Quickfix
+nnoremap <silent><C-n> :cnext<CR>
+nnoremap <silent><C-p> :cprevious<CR>
+
 " Opening the file under the cursor in a new tab. If this file does not yet
 " exist, create it.
 nnoremap to :tabedit <cfile> <CR>
@@ -114,32 +122,6 @@ nnoremap <silent> <C-l> :nohlsearch<CR>
 
 " LANGUAGE SERVER COMMANDS
 nnoremap l <Nop>
-
-" The following commands are now configured in the Lua part of this file, down
-" below. For the time being, the lines here remain in case that the new Lua
-" version doesn’t work.
-"
-" " Shows error information an a floating window.
-" nnoremap le <cmd>lua vim.diagnostic.open_float()<CR>
-" " Go through the found problems.
-" nnoremap lN <cmd>lua vim.diagnostic.goto_prev()<CR>
-" nnoremap ln <cmd>lua vim.diagnostic.goto_next()<CR>
-" " Choose between suggested changes/actions.
-" nnoremap la <cmd>lua vim.lsp.buf.code_action()<CR>
-" vnoremap la <cmd>lua vim.lsp.buf.code_action()<CR>
-" " Rename a variable.
-" nnoremap lm <cmd>lua vim.lsp.buf.rename()<CR>
-" " General information/help.
-" nnoremap lh <cmd>lua vim.lsp.buf.hover()<CR>
-" " Other stuff.
-" nnoremap lD <cmd>lua vim.lsp.buf.declaration()<CR>
-" nnoremap ld <cmd>lua vim.lsp.buf.definition()<CR>
-" nnoremap lf <cmd>lua vim.lsp.buf.formatting()<CR>
-" nnoremap li <cmd>lua vim.lsp.buf.implementation()<CR>
-" nnoremap lr <cmd>lua vim.lsp.buf.references()<CR>
-" nnoremap ls <cmd>lua vim.lsp.buf.signature_help()<CR>
-" nnoremap lt <cmd>lua vim.lsp.buf.type_definition()<CR>
-
 
 
 
@@ -160,7 +142,7 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'j-hui/fidget.nvim'
 
 " Neovim’s treesitter configurations.
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/nvim-treesitter', { 'branch': 'main' }
 
 " Smart tabs: tabs for indentation and spaces for alignment.
 " Doesn’t work as well as I’d like, but better than nothing.
@@ -183,26 +165,19 @@ Plug 'SirVer/ultisnips'
 
 " Text completion, still requires sources for suggested completions.
 Plug 'hrsh7th/nvim-cmp'
-" Source: text in the buffers.
-Plug 'hrsh7th/cmp-buffer'
-" Source: filesystem paths
-Plug 'hrsh7th/cmp-path'
-" Source: vim’s cmdline
-Plug 'hrsh7th/cmp-cmdline'
-" Source: ?
-Plug 'hrsh7th/cmp-omni'
-" Source: language servers.
-Plug 'hrsh7th/cmp-nvim-lsp'
-" Source: Ultisnip
-Plug 'quangnguyen30192/cmp-nvim-ultisnips'
-" For pictograms in the completion menu.
-Plug 'onsails/lspkind-nvim'
+Plug 'hrsh7th/cmp-buffer'                   " Source: text in the buffers.
+Plug 'hrsh7th/cmp-path'                     " Source: filesystem paths
+Plug 'hrsh7th/cmp-cmdline'                  " Source: vim’s cmdline
+Plug 'hrsh7th/cmp-omni'                     " Source: ?
+Plug 'hrsh7th/cmp-nvim-lsp'                 " Source: language servers.
+Plug 'quangnguyen30192/cmp-nvim-ultisnips'  " Source: Ultisnip
+Plug 'onsails/lspkind-nvim'                 " For pictograms in the completion menu.
 
 " VimTex for all kinds of LaTeX stuff.
 Plug 'lervag/vimtex'
 
-" To run Scheme/Lisp/… from the editor.
-Plug 'Olical/conjure'
+" Lean support.
+Plug 'Julian/lean.nvim'
 
 " Debugging from within neovim
 Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh' }
@@ -298,94 +273,132 @@ vim.api.nvim_set_keymap('n', '<space>', ':Telescope<CR>', { noremap = true })
 -----[[ LANGUAGE SERVERS (sorted alphabetically) --]]
 
 local lsconfig = require('lspconfig')
+local lspconfig = vim.lsp
 
 
 ----- BASH
 
-lsconfig.bsl_ls.setup{}
+lspconfig.enable('bashls')
 
 ----- C
 
--- lsconfig.ccls.setup{}
-lsconfig.clangd.setup{}
+-- lspconfig.enable('cssls')
+-- vim.lsp.config('cssls', {
+--   capabilities = capabilities,
+-- })
+lspconfig.enable('clangd')
 
 ----- HTML
 
-lsconfig.html.setup {
+lspconfig.enable('html')
+lspconfig.config('html', {
 	cmd = { 'vscode-html-languageserver', '--stdio' },
 	capabilities = capabilities,
-}
+})
 
------ LTeX
+----- Hyperlang
 
-require'lspconfig'.ltex_plus.setup{}
+lspconfig.enable('hyprls')
 
-local readfile = vim.fn.readfile
+----- LTeX Plus
 
-local wordfile = {}
-wordfile['en-GB']  = 'words-en.txt'
-
-local drulesfile = {}
-drulesfile['en-GB'] = 'disabled-rules-en.txt'
-
-local fposfile = {}
-fposfile['en-GB'] = 'en-false-positives.json'
-
-local envfile = 'environments.json'
-
-local cmdfile = 'commands.json'
+lspconfig.enable('ltex_plus')
 
 -- I would like to use XDG_CONFIG_HOME instead of HOME + '/.config',
 -- but I don’t know how to get the value of XDG_CONFIG_HOME
 -- (or its default value, if it isn’t set).
-lsconfig.ltex_plus.setup{
+local XDG_CONFIG_HOME = vim.env.XDG_CONFIG_HOME or vim.env.HOME .. '/.config'
+local ltex_config_dir = XDG_CONFIG_HOME .. '/ltex'
+
+local readfile = vim.fn.readfile
+local wordfile = {}
+wordfile['en-GB'] = 'words-en.txt'
+wordfile['de-DE'] = 'words-de.txt'
+local drulesfile = {}
+drulesfile['en-GB'] = 'disabled-rules-en.txt'
+local fposfile = {}
+fposfile['en-GB'] = 'en-false-positives.json'
+local envfile = 'environments.json'
+local cmdfile = 'commands.json'
+
+-- readfile() used to work out of the box, but at some point it stopped working,
+-- so now we have to reimplement things by hand.
+local function readstring(filename)
+  local file = io.open(filename, 'r')
+  if file == null then error(filename) end
+  local str = file:read('*a')
+  file:close()
+  return str
+end
+
+local function readlines(filename)
+  return vim.split(readstring(filename), '\n')
+end
+
+local function readjson(filename)
+  return vim.json.decode(readstring(filename))
+end
+
+lspconfig.config('ltex_plus', {
 	settings = {
 		ltex = {
 			latex = {
-				commands = vim.json.decode( table.concat( readfile( vim.env.HOME .. '/.config/ltex/' .. cmdfile ), '\n' ) ),
-				environments = vim.json.decode( table.concat( readfile( vim.env.HOME .. '/.config/ltex/' .. envfile ), '\n' ) ),
+				commands     = readjson( ltex_config_dir .. '/' .. cmdfile ),
+				environments = readjson( ltex_config_dir .. '/' .. envfile ),
 			},
 			additionalRules = {
 				enablePickyRules = true,
 			},
 			checkFrequency = 'save',
 			dictionary = {
-				['en-GB'] = readfile( vim.env.HOME .. '/.config/ltex/' .. wordfile['en-GB'] ),
+				['en-GB'] = readfile( ltex_config_dir .. '/' .. wordfile['en-GB'] ),
+				['de-DE'] = readfile( ltex_config_dir .. '/' .. wordfile['de-DE'] ),
 			},
 			disabledRules = {
-				['en-GB'] = readfile( vim.env.HOME .. '/.config/ltex/' .. drulesfile['en-GB'] ),
+				['en-GB'] = readfile( ltex_config_dir .. '/' .. drulesfile['en-GB'] ),
 			},
 			hiddenFalsePositives = {
-				['en-GB'] = vim.json.decode( table.concat( readfile( vim.env.HOME .. '/.config/ltex/' .. fposfile['en-GB'] ), '\n' ) )
+				['en-GB'] = readjson( ltex_config_dir .. '/' .. fposfile['en-GB'] )
 			},
 			language = 'en-GB',
 		}
 	}
-}
+})
 
 ----- Lua
 
-lsconfig.lua_ls.setup{}
+lspconfig.enable('lua_ls')
 
 ----- Markdown
 
-lsconfig.marksman.setup{}
+lspconfig.enable('marksman')
+
+----- Nushell
+
+lspconfig.enable('nushell')
 
 ----- OCaml
 
-lsconfig.ocamllsp.setup{}
+lspconfig.enable('ocamllsp')
 
 ----- Python
 
-lsconfig.pylsp.setup{}
+lspconfig.enable('pylsp')
+lspconfig.enable('pyright')
 
 ----- Rust
 
-lsconfig.rust_analyzer.setup{}
+lspconfig.enable('rust_analyzer')
+
+----- Termux (PKGBUILD, etc.)
+
+lspconfig.enable('termux_language_server')
 
 ----- TexLab
 
-lsconfig.texlab.setup{
+lspconfig.enable('texlab')
+
+lspconfig.config('texlab', {
 	filetypes = { "tex", "plaintex", "sty", "cls", "bib" },
 	settings = {
 			texlab = {
@@ -403,20 +416,18 @@ lsconfig.texlab.setup{
 					}
 			}
 	}
-}
+})
 
 ----- Typescript
 
--- lsconfig.tsserver.setup{}
-
-lsconfig.denols.setup{}
+lspconfig.enable('denols')
 vim.g.markdown_fenced_languages = {
   "ts=typescript"
 }
 
 ----- VimScript
 
-lsconfig.vimls.setup{}
+lspconfig.enable('vimls')
 
 ----- keybindings
 -- Copied from https://github.com/neovim/nvim-lspconfig/blob/427378a03ffc1e1bc023275583a49b1993e524d0/README.md with adjusted links
@@ -458,36 +469,40 @@ require('fidget').setup{}
 
 -----[[ TREE-SITTER --]]
 
-require('nvim-treesitter.configs').setup {
-	-- One of "all", "maintained" (parsers with maintainers), or a list of languages
-	ensure_installed = {"bash", "bibtex", "c", "css", "git_config", "git_rebase", "gitcommit", "gitignore", "html", "javascript", "json", "julia", "latex", "lua", "markdown", "markdown_inline", "ocaml", "ocaml_interface", "python", "query", "rust", "scheme", "scss", "toml", "typescript", "vim", "vimdoc", "yaml"},
-
-	-- Install languages synchronously (only applied to `ensure_installed`)
-	sync_install = true,
-
-	-- List of parsers to ignore installing
-	ignore_install = { },
-
-	highlight = {
-		-- `false` will disable the whole extension
-		enable = true,
-
-		-- list of language that will be disabled
-		disable = { "latex" },
-
-		-- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-		-- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-		-- Using this option may slow down your editor, and you may see some duplicate highlights.
-		-- Instead of true it can also be a list of languages
-		additional_vim_regex_highlighting = false,
-	},
-
-	indent = {
-		enable = true,
-		disable = {"c", "lua", "ocaml"},
-	},
+local tree_languages = {
+'bash', 'bibtex',
+'c', 'cmake', 'comment', 'commonlisp', 'cpp', 'css',
+'desktop', 'diff', 'dockerfile',
+'ebnf',
+'fish', 'fsharp',
+'gap', 'gap-st', 'git_config', 'git_rebase', 'gitattributes', 'gitcommit', 'gitignore', 'gpg',
+'haskell', 'html', 'hyprls',
+'ini',
+'java', 'javadoc', 'javascript', 'json', 'julia',
+'latex', 'llvm', 'lua', 'luadoc',
+'make', 'markdown', 'markdown_inline', 'menhir', 'mermaid', 'meson',
+'nu',
+'ocaml', 'ocaml_interface', 'ocamllex',
+'perl', 'php', 'printf', 'pymanifest', 'python',
+'query',
+'racket', 'regex', 'requirements', 'rst', 'ruby', 'rust',
+'scheme', 'scss', 'sql', 'ssh_config',
+'tmux', 'todotxt', 'toml', 'typescript', 'typst',
+'udev',
+'vim', 'vimdoc',
+'xml',
+'yaml',
+'zig'
 }
 
+
+require('nvim-treesitter').install(tree_languages)
+
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = tree_languages,
+  callback = function() vim.treesitter.start() end,
+  
+})
 
 
 
@@ -498,33 +513,61 @@ local t = function(str)
 end
 
 local cmp = require('cmp')
+--[[
+      Class = "󰠱",
+      Color = "󰏘",
+      Constant = "󰏿",
+      Constructor = "",
+      Enum = "",
+      EnumMember = "",
+      Event = "",
+      Field = "󰜢",
+      File = "󰈙",
+      Folder = "󰉋",
+      Function = "󰊕",
+      Interface = "",
+      Keyword = "󰌋",
+      Method = "󰆧",
+      Module = "",
+      Operator = "󰆕",
+      Property = "󰜢",
+      Reference = "󰈇",
+      Snippet = "",
+      Struct = "󰙅",
+      TypeParameter = "",
+      Unit = "󰑭",
+      Value = "󰎠",
+      Variable = "󰀫",
+]]
 
 local kind_icons = {
-	Class         = "ﴯ",
-	Color         = "",
-	Constant      = "",
+	Class         = "󰠱",
+	Color         = "󰏘",
+	Constant      = "󰏿",
 	Constructor   = "",
 	Enum          = "",
 	EnumMember    = "",
 	Event         = "",
-	Field         = "",
-	File          = "",
-	Folder        = "",
-	Function      = "",
+	Field         = "󰜢",
+	File          = "󰈙",
+	Folder        = "󰉋",
+	Function      = "󰊕",
 	Interface     = "",
-	Keyword       = "",
-	Method        = "",
+	Keyword       = "󰌋",
+	Method        = ".",
 	Module        = "",
-	Operator      = "",
-	Property      = "ﰠ",
+	Operator      = "󰆕",
+	Property      = "󰜢",
 	Reference     = "",
-	Snippet       = "",
+	Reference     = "󰈇",
+	Snippet       = "",
 	Struct        = "",
-	Text          = "",
-	TypeParameter = "",
+	Struct        = "󰙅",
+	Text          = "󰉿",
+	TypeParameter = "α",
 	Unit          = "",
-	Value         = "",
-	Variable      = "",
+	Value         = "󰎠",
+	Variable      = "𝑥",
 }
 
 cmp.setup({
@@ -628,6 +671,15 @@ lsconfig['texlab'].setup {
 
 
 
+-----[[ LEAN.nvim --]]
+
+require('lean').setup {
+	lsp = { on_attach = on_attach },
+	mappings = true
+}
+
+
+
 EOF
 
 
@@ -636,14 +688,17 @@ EOF
 
 """"" EASYMOVE CONFIGURATION
 
-let g:EasyMotion_do_mapping = 0 " Disable default mappings
+" Disable the default mappings.
+let g:EasyMotion_do_mapping = 0
+" Search case-insensitive for lowercase search targets.
+let g:EasyMotion_smartcase = 1
+" Allow target keys.
+let g:EasyMotion_keys = 'abcdefghijklmnopqrstuvwxyz,.'
 
 " Jump to anywhere you want with minimal keystrokes, with just one key binding.
-" `s{char}{label}`
-nnoremap s <Plug>(easymotion-s)
-
-" Turn on case-insensitive feature
-let g:EasyMotion_smartcase = 1
+" `\{char}{label}`
+nnoremap , <Plug>(easymotion-overwin-f)
+vnoremap , <Plug>(easymotion-overwin-f)
 
 
 

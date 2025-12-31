@@ -70,7 +70,7 @@ ZSH_THEME="gianu"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(rust taskwarrior z)
+plugins=(rust taskwarrior)
 
 
 # User configuration
@@ -128,8 +128,8 @@ alias mkpk="makepkg"
 # less displays tabs of length 4
 alias less="less -x4"
 
-# ask for confirmation for deleting more than three files
-alias rm="rm -I"
+# ask for confirmation for deleting files
+alias rm="rm -i"
 
 # gcc and clang warnings please
 alias gcc="gcc -Wall -Wextra"
@@ -151,5 +151,7 @@ function replaceall() { grep -Irl $1 . | xargs -d '\n' sed -i "s/$1/$2/g" }
 # opam configuration
 [[ ! -r /home/cionx/.opam/opam-init/init.zsh ]] || source /home/cionx/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
 
-# for z
-. /usr/share/z/z.sh
+# for zoxide
+export _ZO_ECHO=1
+eval "$(zoxide init zsh)"
+
