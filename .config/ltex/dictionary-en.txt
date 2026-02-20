@@ -34,6 +34,7 @@ codepoint
 codepoints
 codiagonal
 codiscrete
+codomain
 coequalizer
 coequalizers
 coideal

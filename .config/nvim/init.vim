@@ -316,6 +316,7 @@ wordfile['en-GB'] = 'words-en.txt'
 wordfile['de-DE'] = 'words-de.txt'
 local drulesfile = {}
 drulesfile['en-GB'] = 'disabled-rules-en.txt'
+drulesfile['de-DE'] = 'disabled-rules-de.txt'
 local fposfile = {}
 fposfile['en-GB'] = 'en-false-positives.json'
 local envfile = 'environments.json'
@@ -356,6 +357,7 @@ lspconfig.config('ltex_plus', {
 			},
 			disabledRules = {
 				['en-GB'] = readfile( ltex_config_dir .. '/' .. drulesfile['en-GB'] ),
+				['de-DE'] = readfile( ltex_config_dir .. '/' .. drulesfile['de-DE'] ),
 			},
 			hiddenFalsePositives = {
 				['en-GB'] = readjson( ltex_config_dir .. '/' .. fposfile['en-GB'] )

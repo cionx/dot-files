@@ -22,3 +22,9 @@ include dark-violets-256.theme
 report.next.columns=id,description,project,priority,tags,scheduled.countdown,due.relative,until.remaining
 report.next.labels=ID,Description,Project,P,Tag,S,Due,Until
 report.next.filter=status:pending -WAITING -BLOCKED limit:page
+
+search.case.sensitive=0 # Make search case insensitive.
+
+complete.all.tags=1 # Use all tags for autocompletion, even from old tasks.
+
+weekstart=Monday # Weeks start on Mondays.
