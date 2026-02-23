@@ -62,23 +62,11 @@ set matchpairs+=⟨:⟩,⟦:⟧,⌈:⌉,⌊:⌋,“:”
 
 """"" KEY BINDINGS
 
-" Control + c works like Escape, but it sometimes slightly different.
-" We make sure that they always behave the same.
-cnoremap <C-c> <Esc>
-inoremap <C-c> <Esc>
-nnoremap <C-c> <Esc>
-onoremap <C-c> <Esc>
-snoremap <C-c> <Esc>
-vnoremap <C-c> <Esc>
-xnoremap <C-c> <Esc>
-noremap! <C-c> <Esc>
-
-" Make comma the lead, and semicolon the local leader.
+" Make semicolon the leader.
 let mapleader = ";"
 
 " Stop accidently recording.
 nnoremap q <Nop>
-
 " Stop accidental opening of the command history
 nnoremap q: <Nop>
 
@@ -153,25 +141,24 @@ Plug 'Thyrum/vim-stabs'
 "   - fzf-native
 "   - file-browser
 " Uses fd and ripgrep for searching (optional, both an Arch’s community repo).
-Plug 'nvim-telescope/telescope.nvim', { 'branch': '0.1.x' }
-Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release --target install' }
 Plug 'nvim-telescope/telescope-file-browser.nvim'
 
 " Quickly getting to a specific position.
 Plug 'easymotion/vim-easymotion'
 
+" Text completion, requires sources for suggested completions.
+Plug 'hrsh7th/cmp-nvim-lsp'                 " Completion source: language servers.
+Plug 'hrsh7th/cmp-buffer'                   " Completion source: text in the buffers.
+Plug 'hrsh7th/cmp-path'                     " Completion source: filesystem paths
+Plug 'hrsh7th/cmp-cmdline'                  " Completion source: vim’s cmdline
+Plug 'hrsh7th/cmp-omni'                     " Completion source: vim’s omnifunc
+Plug 'hrsh7th/nvim-cmp'
+
 " Snippets; should be replaced by something else (LuaSnip?) at some point.
 Plug 'SirVer/ultisnips'
-
-" Text completion, still requires sources for suggested completions.
-Plug 'hrsh7th/nvim-cmp'
-Plug 'hrsh7th/cmp-buffer'                   " Source: text in the buffers.
-Plug 'hrsh7th/cmp-path'                     " Source: filesystem paths
-Plug 'hrsh7th/cmp-cmdline'                  " Source: vim’s cmdline
-Plug 'hrsh7th/cmp-omni'                     " Source: ?
-Plug 'hrsh7th/cmp-nvim-lsp'                 " Source: language servers.
-Plug 'quangnguyen30192/cmp-nvim-ultisnips'  " Source: Ultisnip
-Plug 'onsails/lspkind-nvim'                 " For pictograms in the completion menu.
+Plug 'quangnguyen30192/cmp-nvim-ultisnips'  " Completion source: Ultisnip
 
 " VimTex for all kinds of LaTeX stuff.
 Plug 'lervag/vimtex'
@@ -179,18 +166,9 @@ Plug 'lervag/vimtex'
 " Lean support.
 Plug 'Julian/lean.nvim'
 
-" Debugging from within neovim
-Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh' }
-
 " Previewing Markdown files in a browser.
 " Installs a pre-built version so that nodejs and yarn are not needed.
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug'] }
-
-" Useful for drawing simple digrams in text.
-Plug 'jbyuki/venn.nvim'
-
-" Wildfire
-Plug 'gcmt/wildfire.vim'
 
 " Colour themes.
 Plug 'AlexvZyl/nordic.nvim'
@@ -199,7 +177,6 @@ Plug 'Mofiqul/dracula.nvim'
 Plug 'rebelot/kanagawa.nvim'
 Plug 'zootedb0t/citruszest.nvim'
 Plug 'ribru17/bamboo.nvim'
-
 
 call plug#end()
 
@@ -272,7 +249,6 @@ vim.api.nvim_set_keymap('n', '<space>', ':Telescope<CR>', { noremap = true })
 
 -----[[ LANGUAGE SERVERS (sorted alphabetically) --]]
 
-local lsconfig = require('lspconfig')
 local lspconfig = vim.lsp
 
 
@@ -472,75 +448,36 @@ require('fidget').setup{}
 -----[[ TREE-SITTER --]]
 
 local tree_languages = {
-'bash', 'bibtex',
-'c', 'cmake', 'comment', 'commonlisp', 'cpp', 'css',
-'desktop', 'diff', 'dockerfile',
-'ebnf',
-'fish', 'fsharp',
-'gap', 'gap-st', 'git_config', 'git_rebase', 'gitattributes', 'gitcommit', 'gitignore', 'gpg',
-'haskell', 'html', 'hyprls',
-'ini',
-'java', 'javadoc', 'javascript', 'json', 'julia',
-'latex', 'llvm', 'lua', 'luadoc',
-'make', 'markdown', 'markdown_inline', 'menhir', 'mermaid', 'meson',
-'nu',
-'ocaml', 'ocaml_interface', 'ocamllex',
-'perl', 'php', 'printf', 'pymanifest', 'python',
-'query',
-'racket', 'regex', 'requirements', 'rst', 'ruby', 'rust',
-'scheme', 'scss', 'sql', 'ssh_config',
-'tmux', 'todotxt', 'toml', 'typescript', 'typst',
-'udev',
-'vim', 'vimdoc',
-'xml',
-'yaml',
-'zig'
+  'bash', 'bibtex',
+  'c', 'cmake', 'comment', 'commonlisp', 'cpp', 'css',
+  'desktop', 'diff', 'dockerfile',
+  'ebnf',
+  'fish', 'fsharp',
+  'git_config', 'git_rebase', 'gitattributes', 'gitcommit', 'gitignore', 'gpg',
+  'haskell', 'html', 'hyprlang',
+  'ini',
+  'java', 'javadoc', 'javascript', 'json', 'julia',
+  'latex', 'llvm', 'lua', 'luadoc',
+  'make', 'markdown', 'markdown_inline', 'menhir', 'mermaid', 'meson',
+  'nu',
+  'ocaml', 'ocaml_interface', 'ocamllex',
+  'perl', 'php', 'printf', 'pymanifest', 'python',
+  'query',
+  'racket', 'regex', 'requirements', 'rst', 'ruby', 'rust',
+  'scheme', 'scss', 'sql', 'ssh_config',
+  'tmux', 'todotxt', 'toml', 'typescript', 'typst',
+  'udev',
+  'vim', 'vimdoc',
+  'xml',
+  'yaml',
+  'zig'
 }
 
-
 require('nvim-treesitter').install(tree_languages)
-
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = tree_languages,
-  callback = function() vim.treesitter.start() end,
-  
-})
 
 
 
 -----[[ COMPLETION (nvim-cmp) --]]
-
-local t = function(str)
-	return vim.api.nvim_replace_termcodes(str, true, true, true)
-end
-
-local cmp = require('cmp')
---[[
-      Class = "󰠱",
-      Color = "󰏘",
-      Constant = "󰏿",
-      Constructor = "",
-      Enum = "",
-      EnumMember = "",
-      Event = "",
-      Field = "󰜢",
-      File = "󰈙",
-      Folder = "󰉋",
-      Function = "󰊕",
-      Interface = "",
-      Keyword = "󰌋",
-      Method = "󰆧",
-      Module = "",
-      Operator = "󰆕",
-      Property = "󰜢",
-      Reference = "󰈇",
-      Snippet = "",
-      Struct = "󰙅",
-      TypeParameter = "",
-      Unit = "󰑭",
-      Value = "󰎠",
-      Variable = "󰀫",
-]]
 
 local kind_icons = {
 	Class         = "󰠱",
@@ -561,16 +498,16 @@ local kind_icons = {
 	Operator      = "󰆕",
 	Property      = "󰜢",
 	Reference     = "",
-	Reference     = "󰈇",
 	Snippet       = "",
 	Struct        = "",
-	Struct        = "󰙅",
 	Text          = "󰉿",
 	TypeParameter = "α",
 	Unit          = "",
 	Value         = "󰎠",
 	Variable      = "𝑥",
 }
+
+local cmp = require('cmp')
 
 cmp.setup({
 	completion = {
@@ -580,8 +517,15 @@ cmp.setup({
 	formatting = {
 		format = function(entry, vim_item)
 			-- Kind icons
-			vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
+			vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatenates the icons with the name of the item kind
 			-- Source
+			vim_item.menu = ({
+				buffer = "[Buffer]",
+				nvim_lsp = "[LSP]",
+				luasnip = "[LuaSnip]",
+				nvim_lua = "[Lua]",
+				latex_symbols = "[LaTeX]",
+			})[entry.source.name]
 			return vim_item
 		end
 	},
@@ -592,62 +536,27 @@ cmp.setup({
 			-- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
 			-- require('snippy').expand_snippet(args.body) -- For `snippy` users.
 			vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+			-- vim.snippet.expand(args.body) -- For native neovim snippets (Neovim v0.10+)
 		end,
 	},
-	mapping = {
-		['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-		['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-		['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-		['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
-		['<C-e>'] = cmp.mapping({
-			i = cmp.mapping.abort(),
-			c = cmp.mapping.close(),
-		}),
-		['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-		["<C-n>"] = cmp.mapping.select_next_item({behavior=cmp.SelectBehavior.Insert}),
-		["<C-p>"] = cmp.mapping.select_prev_item({behavior=cmp.SelectBehavior.Insert}),
-		["<Up>"] = cmp.mapping({
-			i =
-			function()
-				cmp.abort()
-				vim.api.nvim_feedkeys(t('<Up>'), 'n', true)
-			end,
-			c =
-			function()
-				cmp.close()
-				vim.api.nvim_feedkeys(t('<Up>'), 'n', true)
-			end,
-		}),
-		["<Down>"] = cmp.mapping({
-			i =
-			function()
-				cmp.abort()
-				vim.api.nvim_feedkeys(t('<Down>'), 'n', true)
-			end,
-			c =
-			function()
-				cmp.close()
-				vim.api.nvim_feedkeys(t('<Down>'), 'n', true)
-			end,
-		}),
-	},
+	mapping = cmp.mapping.preset.insert({
+		['<C-b>'] = cmp.mapping.scroll_docs(-4),
+		['<C-f>'] = cmp.mapping.scroll_docs(4),
+		['<C-Space>'] = cmp.mapping.complete(),
+		['<C-e>'] = cmp.mapping.abort(),
+		['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+	}),
 	sources = cmp.config.sources({
 		{ name = 'nvim_lsp' },
 		{ name = 'ultisnips' },
 		{ name = 'omni' },
-		{ name = 'buffer',
-			option = {
-				get_bufnrs = function()
-					return vim.api.nvim_list_bufs() -- Get words from all open buffers.
-				end,
-				keyword_pattern = [[\k\+]]
-			}
-		},
+		{ name = 'buffer'},
 	})
 })
 
--- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
-cmp.setup.cmdline('/', {
+-- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline({ '/', '?' }, {
+	mapping = cmp.mapping.preset.cmdline(),
 	sources = {
 		{ name = 'buffer' }
 	}
@@ -655,21 +564,14 @@ cmp.setup.cmdline('/', {
 
 -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline(':', {
+	mapping = cmp.mapping.preset.cmdline(),
 	sources = cmp.config.sources({
 		{ name = 'path' }
 	}, {
 		{ name = 'cmdline' }
-	})
+	}),
+	matching = { disallow_symbol_nonprefix_matching = false }
 })
-
--- Setup lspconfig.
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
-
--- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
-lsconfig['texlab'].setup {
-	capabilities = capabilities
-}
-
 
 
 
