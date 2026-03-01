@@ -133,6 +133,9 @@ representables
 semidirect
 semilattice
 semilattices
+semipositive
+semipositive-definite
+sesquilinear
 sheafification
 subalgebras
 subbasis

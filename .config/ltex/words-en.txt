@@ -160,7 +160,10 @@ Rotman
 semidirect
 semilattice
 semilattices
+semipositive
+semipositive-definite
 Serre
+sesquilinear
 sheafification
 Sierpiński
 SimPL
