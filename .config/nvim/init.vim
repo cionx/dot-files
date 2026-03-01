@@ -62,6 +62,17 @@ set matchpairs+=⟨:⟩,⟦:⟧,⌈:⌉,⌊:⌋,“:”
 
 """"" KEY BINDINGS
 
+" Control + c works like Escape, but it sometimes slightly different.
+" We make sure that they always behave the same.
+cnoremap <C-c> <Esc>
+inoremap <C-c> <Esc>
+nnoremap <C-c> <Esc>
+onoremap <C-c> <Esc>
+snoremap <C-c> <Esc>
+vnoremap <C-c> <Esc>
+xnoremap <C-c> <Esc>
+noremap! <C-c> <Esc>
+
 " Make semicolon the leader.
 let mapleader = ";"
 
