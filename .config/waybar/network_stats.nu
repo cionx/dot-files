@@ -4,7 +4,7 @@ use my_lib.nu map
 use std repeat
 
 let updateRate = 0.5sec
-let timeWindow = 10sec # Should be a multiple of $updateRate.
+let timeWindow = 2sec # Should be a multiple of $updateRate.
 let sampleNumber = ($timeWindow / $updateRate) | into int
 
 def speedFormat [] {

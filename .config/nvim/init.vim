@@ -520,6 +520,11 @@ local kind_icons = {
 
 local cmp = require('cmp')
 
+
+local t = function(str)
+    return vim.api.nvim_replace_termcodes(str, true, true, true)
+end
+
 cmp.setup({
 	completion = {
 		keyword_length = 2
@@ -531,10 +536,10 @@ cmp.setup({
 			vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatenates the icons with the name of the item kind
 			-- Source
 			vim_item.menu = ({
-				buffer = "[Buffer]",
-				nvim_lsp = "[LSP]",
-				luasnip = "[LuaSnip]",
-				nvim_lua = "[Lua]",
+				buffer        = "[Buffer]",
+				nvim_lsp      = "[LSP]",
+				luasnip       = "[LuaSnip]",
+				nvim_lua      = "[Lua]",
 				latex_symbols = "[LaTeX]",
 			})[entry.source.name]
 			return vim_item
@@ -555,7 +560,63 @@ cmp.setup({
 		['<C-f>'] = cmp.mapping.scroll_docs(4),
 		['<C-Space>'] = cmp.mapping.complete(),
 		['<C-e>'] = cmp.mapping.abort(),
-		['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+		['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+	        ['<C-n>'] = cmp.mapping({
+            c = function()
+                if cmp.visible() then
+                    cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+                else
+                    vim.api.nvim_feedkeys(t('<Down>'), 'n', true)
+                end
+            end,
+            i = function(fallback)
+                if cmp.visible() then
+                    cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+                else
+                    fallback()
+                end
+            end
+        }),
+        ['<C-p>'] = cmp.mapping({
+            c = function()
+                if cmp.visible() then
+                    cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
+                else
+                    vim.api.nvim_feedkeys(t('<Up>'), 'n', true)
+                end
+            end,
+            i = function(fallback)
+                if cmp.visible() then
+                    cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
+                else
+                    fallback()
+                end
+            end
+        }),
+		["<Up>"] = cmp.mapping({
+			i =
+			function()
+				cmp.abort()
+				vim.api.nvim_feedkeys(t('<Up>'), 'n', true)
+			end,
+			c =
+			function()
+				cmp.close()
+				vim.api.nvim_feedkeys(t('<Up>'), 'n', true)
+			end,
+		}),
+		["<Down>"] = cmp.mapping({
+			i =
+			function()
+				cmp.abort()
+				vim.api.nvim_feedkeys(t('<Down>'), 'n', true)
+			end,
+			c =
+			function()
+				cmp.close()
+				vim.api.nvim_feedkeys(t('<Down>'), 'n', true)
+			end,
+		}),
 	}),
 	sources = cmp.config.sources({
 		{ name = 'nvim_lsp' },
@@ -589,10 +650,13 @@ cmp.setup.cmdline(':', {
 -----[[ LEAN.nvim --]]
 
 require('lean').setup {
-	lsp = { on_attach = on_attach },
-	mappings = true
+	infoview = {
+		autoopen = false
+	},
+	stderr = {
+		enable = false
+	}
 }
-
 
 
 EOF
