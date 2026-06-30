@@ -23,8 +23,15 @@ report.next.columns=id,description,priority,tags,scheduled.countdown,due.relativ
 report.next.labels=ID,Description,P,Tag,S,Due,Until
 report.next.filter=status:pending -WAITING -BLOCKED limit:page
 
-search.case.sensitive=0 # Make search case insensitive.
+# Make search case insensitive.
+search.case.sensitive=0
 
-complete.all.tags=1 # Use all tags for autocompletion, even from old tasks.
+# Use all tags for autocompletion, even from old tasks.
+complete.all.tags=1
 
-weekstart=Monday # Weeks start on Mondays.
+# Don’t auto-propagate changes to siblings.
+# Sadly this also disables auto-propagation to children, which is slightly annoying.
+recurrence.confirmation=0
+
+# Weeks start on Mondays.
+weekstart=Monday

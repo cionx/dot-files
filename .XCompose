@@ -4180,6 +4180,7 @@
 <Multi_key> <asciitilde> <e> : "ẽ"
 <Multi_key> <asciitilde> <E> : "Ẽ"
 <Multi_key> <asciitilde> <equal> : "≅"
+<Multi_key> <asciitilde> <greater> : "⇝"
 <Multi_key> <asciitilde> <Greek_alpha> : "ᾶ"
 <Multi_key> <asciitilde> <Greek_eta> : "ῆ"
 <Multi_key> <asciitilde> <Greek_iotadieresis> : "ῗ"

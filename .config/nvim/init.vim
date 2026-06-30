@@ -13,11 +13,11 @@ set shiftwidth=4
 set noexpandtab
 
 " Display certain kinds of whitespace differently:
-" Tabs are displayed as ··
-" Trailing spaces are displayed as S
+" Tabs are displayed as a line ──╴of strechable length
+" Trailing spaces are displayed as ·
 " Nonbreakable spaces are displayed as ~
 set list
-set listchars=tab:··,trail:S,nbsp:~
+set listchars=tab:──╴,trail:·,nbsp:~
 
 " Hightlight (while typing) a search
 set hlsearch
@@ -423,8 +423,8 @@ lspconfig.enable('vimls')
 
 -- Global mappings
 vim.keymap.set('n', 'le', vim.diagnostic.open_float)
-vim.keymap.set('n', 'lN', vim.diagnostic.goto_prev)
-vim.keymap.set('n', 'ln', vim.diagnostic.goto_next)
+vim.keymap.set('n', 'lN', function() vim.diagnostic.jump({count = -1}) end)
+vim.keymap.set('n', 'ln', function() vim.diagnostic.jump({count = 1}) end)
 vim.keymap.set('n', 'lq', vim.diagnostic.setloclist)
 -- Local commands
 vim.api.nvim_create_autocmd('LspAttach', {
@@ -561,61 +561,73 @@ cmp.setup({
 		['<C-Space>'] = cmp.mapping.complete(),
 		['<C-e>'] = cmp.mapping.abort(),
 		['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-	        ['<C-n>'] = cmp.mapping({
-            c = function()
-                if cmp.visible() then
-                    cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
-                else
-                    vim.api.nvim_feedkeys(t('<Down>'), 'n', true)
-                end
-            end,
-            i = function(fallback)
-                if cmp.visible() then
-                    cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
-                else
-                    fallback()
-                end
-            end
-        }),
-        ['<C-p>'] = cmp.mapping({
-            c = function()
-                if cmp.visible() then
-                    cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
-                else
-                    vim.api.nvim_feedkeys(t('<Up>'), 'n', true)
-                end
-            end,
-            i = function(fallback)
-                if cmp.visible() then
-                    cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
-                else
-                    fallback()
-                end
-            end
-        }),
+		['<space>'] = cmp.mapping({
+			c = function()
+					if cmp.visible() then
+						cmp.confirm({ select = false })
+					end
+					vim.api.nvim_feedkeys(t('<space>'), 'n', true)
+				end,
+			i = function(fallback)
+					if cmp.visible() then
+						cmp.confirm({ select = false })
+						vim.api.nvim_feedkeys(t('<space>'), 'n', true)
+					else
+						fallback()
+					end
+				end
+		}),
+		['<C-n>'] = cmp.mapping({
+			c = function()
+					if cmp.visible() then
+						cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+					else
+						vim.api.nvim_feedkeys(t('<Down>'), 'n', true)
+					end
+				end,
+			i = function(fallback)
+					if cmp.visible() then
+						cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+					else
+						fallback()
+					end
+				end
+		}),
+		['<C-p>'] = cmp.mapping({
+			c = function()
+					if cmp.visible() then
+						cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
+					else
+						vim.api.nvim_feedkeys(t('<Up>'), 'n', true)
+					end
+				end,
+			i = function(fallback)
+					if cmp.visible() then
+						cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
+					else
+						fallback()
+					end
+				end
+		}),
 		["<Up>"] = cmp.mapping({
-			i =
-			function()
-				cmp.abort()
-				vim.api.nvim_feedkeys(t('<Up>'), 'n', true)
-			end,
-			c =
-			function()
-				cmp.close()
-				vim.api.nvim_feedkeys(t('<Up>'), 'n', true)
-			end,
+			i = function()
+					cmp.abort()
+					vim.api.nvim_feedkeys(t('<Up>'), 'n', true)
+				end,
+			c = function()
+					cmp.close()
+					vim.api.nvim_feedkeys(t('<Up>'), 'n', true)
+				end,
 		}),
 		["<Down>"] = cmp.mapping({
-			i =
-			function()
-				cmp.abort()
-				vim.api.nvim_feedkeys(t('<Down>'), 'n', true)
-			end,
-			c =
-			function()
-				cmp.close()
-				vim.api.nvim_feedkeys(t('<Down>'), 'n', true)
-			end,
+			i = function()
+					cmp.abort()
+					vim.api.nvim_feedkeys(t('<Down>'), 'n', true)
+				end,
+			c = function()
+					cmp.close()
+					vim.api.nvim_feedkeys(t('<Down>'), 'n', true)
+				end,
 		}),
 	}),
 	sources = cmp.config.sources({
@@ -797,4 +809,4 @@ let g:mkdp_markdown_css = expand('~/.config/nvim/others/markdown-preview/markdow
 
 """""  COLOURSCHEME SETTINGS
 
-colorscheme retrobox
+colorscheme kanagawa
