@@ -476,7 +476,7 @@ local tree_languages = {
   'query',
   'racket', 'regex', 'requirements', 'rst', 'ruby', 'rust',
   'scheme', 'scss', 'sql', 'ssh_config',
-  'tmux', 'todotxt', 'toml', 'typescript', 'typst',
+  'todotxt', 'toml', 'typescript', 'typst',
   'udev',
   'vim', 'vimdoc',
   'xml',
@@ -661,7 +661,9 @@ cmp.setup.cmdline(':', {
 
 -----[[ LEAN.nvim --]]
 
-require('lean').setup {
+
+--[[
+vim.g.lean_config {
 	infoview = {
 		autoopen = false
 	},
@@ -669,6 +671,7 @@ require('lean').setup {
 		enable = false
 	}
 }
+]]
 
 
 EOF

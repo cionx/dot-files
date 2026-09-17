@@ -129,7 +129,7 @@ alias mkpk="makepkg"
 alias less="less -x4"
 
 # ask for confirmation for deleting files
-alias rm="rm -i"
+alias rm="rm -I"
 
 # gcc and clang warnings please
 alias gcc="gcc -Wall -Wextra"
