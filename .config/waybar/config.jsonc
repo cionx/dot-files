@@ -34,5 +34,9 @@
 
 	"include": [
 		"/home/cionx/.config/waybar/shared_modules.json"
+	],
+
+	"modules-center" : [
+		"hyprland/submap"
 	]
 }]

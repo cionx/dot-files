@@ -1,7 +1,7 @@
 # [Created by task 3.4.1 8/20/2025 20:36:15]
 data.location=~/.local/share/task
 hooks.location=~/.config/task/hooks
-news.version=3.4.1
+news.version=3.5.0
 
 # Color theme (uncomment one to use)
 #include light-16.theme
