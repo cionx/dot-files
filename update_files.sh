@@ -14,7 +14,7 @@ files=(
 	.config/nvim/after/
 	.config/nvim/my_snippets/
 	.config/nvim/others/
-	.config/nvim/init.vim
+	.config/nvim/init.lua
 	.config/utop/
 	.config/pacman/
 	.config/task/
