@@ -61,9 +61,9 @@ Kbd = {
 
 Mods = {
   main                  = "SUPER",
-  swap_windows          = "SUPER + SHIFT",
-  switch_workspace      = "SUPER + ALT",
-  move_window_workspace = "SUPER + ALT + SHIFT",
+  swap_windows          = "SUPER + ALT",
+  switch_workspace      = "SUPER + CTRL",
+  move_window_workspace = "SUPER + CTRL + ALT",
 }
 
 function Bind_main_action(key, action, flags) -- flags are optional.
