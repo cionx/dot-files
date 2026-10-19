@@ -122,7 +122,7 @@ vim.keymap.set(modes.normal, '<A-d>', ':bdelete<CR>')
 
 -- Switching search highlight on/off via 'hl'.
 -- The current status of the highlight is in vim.opt.hls,
--- either as 0 (off) or 1 (on).
+-- and directly accessible via vim.o.hls.
 local function toggle_search_highlight()
   vim.o.hls = not vim.o.hls
 end
@@ -186,19 +186,12 @@ vim.pack.add({
   github('hrsh7th/nvim-cmp'),
 
   -- Snippets; should be replaced by something else (LuaSnip?) at some point.
+  --[[
   github('SirVer/ultisnips'),
   github('quangnguyen30192/cmp-nvim-ultisnips'), -- Completion source: Ultisnip
-
-  -- VimTex for all kinds of LaTeX stuff.
-  github('lervag/vimtex'),
-
-  -- Lean support. Currently disabled.
-  github('Julian/lean.nvim'),
-
-  -- Previewing Markdown files in a browser.
-  github('iamcco/markdown-preview.nvim'),
-  -- Missing: Installs a pre-built version so that nodejs and yarn are not needed.
-  -- { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug'] }
+  --]]
+  github('L3MON4D3/LuaSnip'),
+  github('saadparwaiz1/cmp_luasnip'),
 
   -- Colour themes.
   -- github('ribru17/bamboo.nvim'),
@@ -392,30 +385,6 @@ lspconfig.enable('rust_analyzer')
 
 lspconfig.enable('termux_language_server')
 
------ TexLab
-
-lspconfig.enable('texlab')
-
-lspconfig.config('texlab', {
-  filetypes = { "tex", "plaintex", "sty", "cls", "bib" },
-  settings = {
-      texlab = {
-          build = {
-              isContinuous = true,
-          },
-          chktex = {
-              onEdit = false,
-              onOpenAndSave = false,
-          },
-          formatterLineLength = 100,
-          forwardSearch = {
-              executable = "okular",
-              args = { "--unique", "%p#src:%l%f" }
-          }
-      }
-  }
-})
-
 ----- Typescript
 
 lspconfig.enable('denols')
@@ -559,15 +528,15 @@ cmp.setup({
     -- REQUIRED - you must specify a snippet engine
     expand = function(args)
       -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-      -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+      require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
       -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
-      vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+      -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
       -- vim.snippet.expand(args.body) -- For native neovim snippets (Neovim v0.10+)
     end,
   },
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
-    { name = 'ultisnips' },
+    { name = 'luasnip', option = { use_show_condition = false, show_autosnippets = true } },
     { name = 'omni' },
     { name = 'buffer'},
   }),
@@ -671,21 +640,6 @@ cmp.setup.cmdline(':', {
 
 
 
---[[ LEAN.nvim CONFIGURATION --]]
-
-vim.g.lean_config = {
-  infoview = {
-    autoopen = false
-  },
-  stderr = {
-    enable = false
-  }
-}
-
-
-
-
-
 --[[ EASYMOVE CONFIGURATION --]]
 
 -- Disable the default mappings.
@@ -702,108 +656,26 @@ vim.keymap.set({modes.normal, modes.visual}, ',', '<Plug>(easymotion-overwin-f)'
 
 
 
---[[ ULTISNIP CONFIGURATION --]]
-vim.g.UltiSnipsExpandTrigger = '<F2>'
-vim.g.UltiSnipsJumpForwardTrigger = '<C-n>'
-vim.g.UltiSnipsJumpBackwardTrigger = '<C-p>'
-vim.g.UltiSnipsSnippetDirectories = {'UltiSnips', 'my_snippets'}
+--[[ LUASNIPS CONFIGURATION --]]
 
+local snippet_path = vim.fn.stdpath('config') .. '/luasnip_snippets'
+require('luasnip.loaders.from_lua').lazy_load({ paths = { snippet_path } })
 
+local ls = require('luasnip')
 
+ls.setup({
+  update_events = { 'TextChanged', 'TextChangedI' },
+  store_selection_keys = '<Tab>',
+})
 
+vim.keymap.set({"i"}, "<C-e>", function() ls.expand() end, {silent = true})
+vim.keymap.set({"i", "s"}, "<C-r>", function() ls.jump( 1) end, {silent = true})
+vim.keymap.set({"i", "s"}, "<C-t>", function() ls.jump(-1) end, {silent = true})
 
---[[ VIMTEX CONFIGURATION --]]
-
-vim.g.tex_flavor = 'latex'
-
--- Disable highlighting of Unicode mathematics as TeX commands, see https://github.com/lervag/vimtex/issues/2732#issuecomment-1677584255
-vim.g.vimtex_syntax_match_unicode = false
-
--- When inside some delimiters (e.g., parentheses) use tsd (toggle surrounding
--- delimiters) to toggle through these (+ no delimiters).
-vim.g.vimtex_delim_toggle_mod_list = {
-  {'\\bigl',  '\\bigr'},
-  {'\\Bigl',  '\\Bigr'},
-  {'\\biggl', '\\biggr'},
-  {'\\Biggl', '\\Biggr'},
-  {'\\left',  '\\right'},
-}
-
--- Paired delimiters that we can jump between using %.
-vim.g.vimtex_delim_list = {
-  delim_math = {
-    name = {
-      {'(', ')'},
-      {'[', ']'},
-      {'\\{',           '\\}'},
-      {'⟨',             '⟩'},
-      {'⦅',             '⦆'},
-      {'⟦',             '⟧'},
-      {'⦃',             '⦄'},
-      {'⌈',             '⌉'},
-      {'⌊',             '⌋'},
-      {'\\begingroup', '\\endgroup'},
-      {'\\lparen',     '\\rparen'},
-      {'\\lbrack',     '\\rbrack'},
-      {'\\lbrace',     '\\rbrace'},
-      {'\\langle',     '\\rangle'},
-      {'\\lBrack',     '\\rBrack'},
-      {'\\lceil',      '\\rceil'},
-      {'\\lfloor',     '\\rfloor'},
-      {'\\ulcorner',   '\\urcorner'},
-      {'\\lvert',      '\\rvert'},
-      {'\\lVert',      '\\rVert'},
-    },
-  },
-}
-
--- Disable automatic compilation for every little change.
-vim.g.vimtex_compiler_latexmk = {continuous = 0}
--- Alt+2 for compilation; uses 'latexmk' per default
-vim.keymap.set(modes.normal, '<M-2>', ':wall<Return>:VimtexCompile<Return>')
--- Alt+3 for opening the PDF viewer at the current position
-vim.keymap.set(modes.normal, '<M-3>', ':VimtexView<Return>')
-
--- Forward and backward search with okular, as explained in
--- :help vimtex-view-okular
--- :help vimtex-synctex-inverse-search
-vim.g.vimtex_compiler_progname    = 'nvr'
-vim.g.vimtex_view_method          = 'general'
-vim.g.vimtex_view_general_viewer  = 'okular'
-vim.g.vimtex_view_general_options = [[--unique file:@pdf\#src:@line@tex]]
--- In Okular, under
---   Settings > Configure Okular > Editor
--- choose 'Custom Text Editor' and enter the following command:
---   nvim --headless -c "VimtexInverseSearch %l '%f'"
-
-
-
-
-
---[[ MARKDOWN PREVIEW CONFIG --]]
-
--- Taken from: https://github.com/iamcco/markdown-preview.nvim/blob/02cc3874738bc0f86e4b91f09b8a0ac88aef8e96/README.md
-
--- Leave the preview open, even if the file has been closed in the editor.
--- Not what I want, but the auto-close function leads to error warnings that are more annoying than closing the preview by hand.
-vim.g.mkdp_auto_close = 0
--- Disable sync scroll (default is 0); all other options are the untouched default values.
-vim.g.mkdp_preview_options = {
-  mkit = {},
-  katex = {},
-  uml = {},
-  maid = {},
-  disable_sync_scroll = 1,
-  sync_scroll_type = 'middle',
-  hide_yaml_meta = 1,
-  sequence_diagrams = {},
-  flowchart_diagrams = {},
-  content_editable = false,
-  disable_filename = 0,
-  toc = {}
-}
--- To change the font for monospace fonts, a custom CSS file must be specified.
--- This file is just a copy of
--- https://github.com/iamcco/markdown-preview.nvim/blob/02cc3874738bc0f86e4b91f09b8a0ac88aef8e96/app/_static/markdown.css
--- with ".markdown-body code > font-family" adjusted.
-vim.g.mkdp_markdown_css = vim.fn.expand('~/.config/nvim/others/markdown-preview/markdown.css')
+--[[
+vim.keymap.set({"i", "s"}, "<C-E>", function()
+  if ls.choice_active() then
+    ls.change_choice(1)
+  end
+end, {silent = true})
+--]]

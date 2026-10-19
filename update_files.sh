@@ -12,7 +12,7 @@ files=(
 	.config/ltex/
 	.config/mpv/
 	.config/nvim/after/
-	.config/nvim/my_snippets/
+	.config/nvim/luasnip_snippets/
 	.config/nvim/others/
 	.config/nvim/init.lua
 	.config/utop/

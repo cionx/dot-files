@@ -1,0 +1,7 @@
+body {
+	font-size: 120%;
+}
+
+#content code {
+	font-family: JuliaMono, monospace;
+}
