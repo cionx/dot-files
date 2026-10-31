@@ -12,6 +12,7 @@ hl.define_submap("programs", "reset", function()
   hl.bind("T", hl.dsp.exec_cmd(Programs.terminal))
   hl.bind("E", hl.dsp.exec_cmd(Programs.terminal .. " -e " .. Programs.editor))
   hl.bind("B", hl.dsp.exec_cmd(Programs.webBrowser))
+  hl.bind("P", hl.dsp.exec_cmd(Programs.webBrowser .. " --private-window"))
   -- Manually exit the submap with Escape.
   hl.bind("Escape", hl.dsp.submap("reset"))
 end)
