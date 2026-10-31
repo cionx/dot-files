@@ -10,7 +10,7 @@ Bind_main_cmd("KP_5", "hyprlock")
 
 -- Close the active window.
 
-Bind_main_action("Backspace", hl.dsp.window.close("activewindow"))
+Bind_main_action("Backspace", hl.dsp.window.close())
 
 -- Rebooting waybar.
 
